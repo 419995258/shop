@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  
+  <body ng-app="loginApp" >
+<div class="container qz_content">				
+	<div class="row">
+		<form class="form-horizontal">	
+			<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+			</div>
+				
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6  register_box">
+				<h3 class="qu_title" style="background: #fff;">用户登录</h3>
+				<div class="form-group">
+				    <label for="inputPassword3" class="col-sm-3 control-label">邮箱(用户名)</label>
+				    <div class="col-sm-9">
+				      <input type="text" class="form-control" id="inputPassword3" ng-model="items.username" />
+				    </div>
+				</div>  
+				<div class="form-group">
+				    <label for="inputPassword3" class="col-sm-3 control-label">密码</label>
+				    <div class="col-sm-9">
+				      <input type="password" class="form-control" id="inputPassword3" ng-model="items.password" />
+				    </div>
+				</div>
+				  
+				<div style="width:100%; height: 30px;"></div>
+	  
+			    <input ng-click="login()" type="button" class="btn btn-info btn-lg" style="width:100%;" value="登录" />
+			    <div style="width:100%; height: 40px; line-height: 40px;">
+			    	<span ng-bind="tsText" style="float: left;color: red;"></span>
+			    	<div class="tx_right"><a ui-sref="passwordRecovery">找回密码</a></div>
+			    	<div class="tx_right" style="margin-right:10px"><a ui-sref="passwordRecovery">注册用户</a></div>
+			    </div>
+			    
+			</div>	
+			
+		</form>
+	</div>
+</div>
+
+  
+  </body>
+</html>

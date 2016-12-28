@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body ng-app="loginLog">
+
+	<nav class="navbar navbar-default">
+		<span class="navbar-brand">登录日志</span> <span
+			style="font-size:15px;float:right;font-weight:bold;margin-right:30px;margin-top:13px">累计访问人次：<span ng-bind="add.time"></span></span>
+		<span
+			style="font-size:15px;float:right;font-weight:bold;margin-right:30px;margin-top:13px">累计交易额度：<span ng-bind="add.money"></span></span>
+
+
+	</nav>
+
+	<!-- <div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>登陆时间</th>
+						<th>用户名</th>
+						<th>用户名</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="x in logitems">
+						<td><span ng-bind="x.date"></span></td>
+						<td><span ng-bind="x.name"></span></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="text-right" style="margin-right:40px;">
+				<uib-pagination boundary-links="true" items-per-page="pageSize"
+					ng-change="pageChanged()" total-items="totalItems"
+					num-pages="pages" max-size="maxSize" ng-model="currentPage"
+					class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;"
+					first-text="&laquo;" last-text="&raquo;"> </uib-pagination>
+			</div>
+		</div>
+	</div> -->
+	<div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>登陆时间</th>
+						<th>用户名</th>
+						<th>用户姓名</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="x in log">
+						<td><span ng-bind="x.strTime"></span></td>
+						<td><span ng-bind="x.username"></span></td>
+						<td><span ng-bind="x.name"></span></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="text-right" style="margin-right:40px;">
+				<uib-pagination boundary-links="true" items-per-page="pageSize"
+					ng-change="pageChanged()" total-items="totalItems"
+					num-pages="pages" max-size="maxSize" ng-model="currentPage"
+					class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;"
+					first-text="&laquo;" last-text="&raquo;"> </uib-pagination>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<script type="text/javascript" src="static/js/lib/vue.js"></script>
+	<script type="text/javascript" src="static/js/lib/jquery/jquery-2.2.0.min.js" ></script>
+	<body>
+		<div id="dd">
+			商品名：<input v-model="shop.name" /><br /> 
+			商品价格:<input v-model="shop.price" /><br /> 
+			名字: <span>{{shop.name}}</span><br /> 
+			价格：<span>{{shop.price}}</span><br />
+			<button v-on:click="ppp()">我是按钮</button>
+			
+			 访问是否成功： <span>{{fuck.success}}</span> 
+		</div>
+		<a href="views/001_index.html">跳转</a>
+	</body>
+
+	<script>
+		var vm = new Vue({
+			el:"#dd",
+			data:{
+				shop:{},
+				fuck:{}
+			},
+			methods:{
+				ppp: function(){
+					console.log("已经运行");
+					$.ajax({
+						url:"testC/test",
+						type:"post",
+						data:JSON.stringify(vm.shop),
+						datatype:'json',
+						contentType: "application/json",
+						success:function(data){
+							vm.fuck = data;
+							console.log(vm.fuck);
+						},
+						error:function(){
+							alert('失败');
+						}
+					});
+				}
+			
+			}
+		});
+		
+	
+	</script>
+
+</html>

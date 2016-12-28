@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<title></title>
+
+		<!-- 新 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet" href="../static/css/bootstrap/bootstrap.min.css">
+		<link href="../static/css/dashboard.css" rel="stylesheet">
+		<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+		<script src="../static/js/lib/jquery/jquery-2.1.4.min.js"></script>
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="../static/js/lib/bootstrap/bootstrap.min.js"></script>
+		<!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+		<!--[if lt IE 9]>
+	<script src="../static/js/lib/bootstrap/html5.min.js"></script>
+	<script src="../static/js/lib/bootstrap/respond.min.js"></script>
+<![endif]-->
+		<!-- 自定义样式 -->
+		<link rel="stylesheet" href="../static/css/style.css">
+
+		<!-- 路由相关js -->
+		<script type="text/javascript" src="../static/js/lib/angular/angular.min.js"></script>
+		<script type="text/javascript" src="../static/js/lib/angular/angular-animate 1.4.min.js"></script>
+		<script type="text/javascript" src="../static/js/lib/angular/angular-ui-router v1.0.0-alpha.5.min.js"></script>
+		<script type="text/javascript" src="../static/js/lib/angular/ui-bootstrap/ui-bootstrap.min.js"></script>
+		<!-- 国际化相关js -->
+		<script type="text/javascript" src="../static/js/lib/angular/angular-translate.min.js"></script>
+		<script type="text/javascript" src="../static/js/lib/angular/angular-cookies.min.js"></script>
+		<!-- 国际化相关js -->
+
+		<script type="text/javascript" src="../static/js/lib/angular/tm.pagination.js"></script>
+		<!--分页?-->
+		<link type="text/css" rel="stylesheet" href="../static/css/views/system/page-list.css" />
+		<!--分页样式?-->
+
+		<!-- 分页 -->
+		<script type="text/javascript" src="../static/js/lib/angular/ui-bootstrap/ui-bootstrap-tpls 0.14.3.min.js"></script>
+
+		<!-- 校验必填项 -->
+		<script type="text/javascript" src="../static/js/lib/global.js"></script>
+
+		<!-- 页面js -->
+		<script type="text/javascript" src="../static/js/views/001_index.js"></script>
+		<!--Index-->
+		<script type="text/javascript" src="../static/js/views/002_home.js"></script>
+		<!--home-->
+		<script type="text/javascript" src="../static/js/views/003_card.js"></script>
+		<!--card-->
+		<script type="text/javascript" src="../static/js/views/004_order.js"></script>
+		<!--order-->
+		<script type="text/javascript" src="../static/js/views/005_center.js"></script>
+		<!--center-->
+		<script type="text/javascript" src="../static/js/views/006_login.js"></script>
+		<!--login-->
+		<script type="text/javascript" src="../static/js/views/007_register.js"></script>
+		<!--register-->
+		<script type="text/javascript" src="../static/js/views/008_passwordRecovery.js"></script>
+		<!--passwordRecovery-->
+		<script type="text/javascript" src="../static/js/views/009_passwordRecovery2.js"></script>
+		<!--passwordRecovery2-->
+	</head>
+	<body ng-app="indexApp" ng-controller="indexController" >
+			<nav class="navbar navbar-inverse navbar-fixed-top phone_menu" >
+			<div class="container">
+				<div class="container-fluid">
+					
+					<div class="navbar-header">
+						<img alt="Brand" src="../static/img/logo.png" class="phone_logo">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        				<span class="sr-only">Toggle navigation</span>
+	        				<span class="icon-bar"></span>
+	        				<span class="icon-bar"></span>
+	        				<span class="icon-bar"></span>
+	    				</button>
+						<div class="logo"></div>
+					</div>
+
+					
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li>
+								<a ui-sref="home">所有商品</a>
+							</li>
+
+							<li>
+								<a ui-sref="card">购物车</a>
+							</li>
+
+							<li>
+								<a ui-sref="order">我的订单</a>
+							</li>
+
+							<li>
+								<a ui-sref="center">用户中心</a>
+							</li>
+							<li ng-if='!user.username'>
+								<a ui-sref="register">注册</a>
+							</li>
+							<li ng-if='!user.username'>
+								<a ui-sref="login">登录</a>
+							</li>
+							<li>
+								<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=419995258&site=qq&menu=yes">
+									<img  border="0"alt="在线客服" title="在线客服" />
+								</a>
+							</li>
+							<li  ng-if='user.username' >
+								<a ng-click="loginOut()">注销</a>
+							</li>
+						</ul>
+
+					</div>
+				
+				</div>
+			</div>
+		</nav>
+		<!--顶部菜单-->
+		<div class="header">
+			<div class="container qz_content" style="padding:0px; margin-top:0px;">
+				<div class="header_top">
+					<p>联系电话：<span>051987900005</span></p>
+					<p>地址：<span>江苏省溧阳市戴埠镇新春自选超市</span></p>
+					<!--大屏右上角菜单-->
+					<div class="btns">
+						<a ng-if='!user.username' ui-sref="register" onclick="changeActive('#btn_userCenter');">注册</a>
+						<a ng-if='!user.username'ui-sref="login" onclick="changeActive('#btn_userCenter');">登录</a>
+						<span ng-if='user.username'>欢迎您，</span>
+						<span ng-if='user.username' ng-bind="user.username"></span>
+						<a ng-if='user.username' ng-click="loginOut()">退出</a>
+						<!-- <a onclick="changeActive('#btn_userCenter');" ui-sref="register">注册</a>
+						<a onclick="changeActive('#btn_userCenter');" ui-sref="login">登录</a> -->
+						<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=419995258&site=qq&menu=yes">
+							<img border="0" src="http://wpa.qq.com/pa?p=2:419995258:51"alt="在线客服" title="在线客服" s/>
+						</a>
+					</div>
+				</div>
+				<div class="logo_top"></div>
+				
+				<div class="ewm1"></div>
+				<div class="ewm2"></div>
+			</div>
+		</div>
+		<!--原始菜单-->
+		<div class="main_menu">
+			<div class="container qz_content" style="padding:0px; margin-top:0px;">
+				<a onclick="changeActive(this)" id="btn_home" ui-sref="home">所有商品</a>
+				<a onclick="changeActive(this)" id="btn_card" ui-sref="card">购物车</a>
+				<a onclick="changeActive(this)" id="btn_order" ui-sref="order">我的订单</a>
+				<a onclick="changeActive(this)" id="btn_center" ui-sref="center">用户中心</a>
+			</div>
+		</div>
+		<!--视窗口-->
+		<div ui-view></div>
+		<!--底部链接-->
+		<div class="footer">
+			<div class="yqle">
+				友情连接:
+				<a ng-repeat="x in friends" href="{{x.href}}" target="_blank" ng-bind="x.friendName"></a>
+			</div>
+			Copyright ©
+		</div>
+
+		<script>
+			function changeActive(x) {
+				$('.qz_content > a').removeClass('active');
+				$(x).addClass('active');
+			};
+		</script>
+	</body>
+
+</html>

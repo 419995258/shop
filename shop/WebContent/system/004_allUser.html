@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body ng-app="allUserApp">
+<body ng-app="allOrderApp">
+	<!--搜索栏-->
+	<nav class="navbar navbar-default">
+		<span class="navbar-brand">全部用户</span>
+
+		<form class="navbar-form navbar-right">
+			<div class="form-group">
+
+				<select class="form-control" ng-model="qureyType"
+					ng-options="m.name for m in selectItems">
+				</select>
+
+			</div>
+			<div class="input-group search_group">
+				<input type="text" class="form-control" placeholder="请输入搜索的信息"
+					ng-model='queryText'> <span class="input-group-btn">
+					<button class="btn btn-default" type="button"
+						ng-click='pageChanged()'>搜索</button>
+
+				</span>
+			</div>
+			<!-- /input-group -->
+
+		</form>
+	</nav>
+
+	<div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>注册时间</th>
+						<th>用户账号</th>
+						<th>用户姓名</th>
+						<th>用户电话</th>
+						<th>用户地址</th>
+						<th>购买总额</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="x in user">
+						<td><span ng-bind="x.strRegister"></span></td>
+						<td><span ng-bind="x.username"></span></td>
+						<td><span ng-bind="x.name"></span></td>
+						<td><span ng-bind="x.tel"></span></td>
+						<td><span ng-bind="x.address"></span></td>
+						<td><span ng-bind="x.money"></span></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="text-right" style="margin-right:40px;">
+				<uib-pagination boundary-links="true" items-per-page="pageSize"
+					ng-change="pageChanged()" total-items="totalItems"
+					num-pages="pages" max-size="maxSize" ng-model="currentPage"
+					class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;"
+					first-text="&laquo;" last-text="&raquo;"> </uib-pagination>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>

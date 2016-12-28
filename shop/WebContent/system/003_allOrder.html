@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body ng-app="allOrderApp">
+	<!--搜索栏-->
+	<nav class="navbar navbar-default">
+		<span class="navbar-brand">待处理订单</span>
+
+		<form class="navbar-form navbar-right">
+			<div class="form-group">
+				<!-- <select class="form-control">
+						<option>显示全部订单</option>
+						<option>搜姓名</option>
+						<option>搜手机号</option>
+					</select> -->
+				<select class="form-control" ng-model="qureyType"
+					ng-options="m.name for m in selectItems">
+				</select>
+
+			</div>
+			<div class="input-group search_group">
+				<input type="text" class="form-control" placeholder="请输入搜索的信息"
+					ng-model='queryText'> <span class="input-group-btn">
+					<button class="btn btn-default" type="button"
+						ng-click='pageChanged()'>搜索</button>
+
+				</span>
+			</div>
+			<!-- /input-group -->
+
+		</form>
+	</nav>
+
+	<div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>订单时间</th>
+						<th>用户账号</th>
+						<th>用户姓名</th>
+						<th>用户电话</th>
+						<th>订单价格</th>
+						<th><span class="cz">操作</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="x in orderMini">
+						<td><span ng-bind="x.strTime"></span></td>
+						<td><span ng-bind="x.username"></span></td>
+						<td><span ng-bind="x.name"></span></td>
+						<td><span ng-bind="x.tel"></span></td>
+						<td><span ng-bind="x.money"></span></td>
+
+						<td><span>
+								<button type="button" class="btn btn-warning btn-sm"
+									ng-click="openXD($index)">查看详情</button>
+						</span> <span>
+								<button type="button" class="btn btn-danger btn-sm"
+									ng-click="openDelPage($index)">取消订单</button>
+						</span> <span>
+								<button type="button" class="btn btn-success btn-sm"
+									ng-click="openFinishPage($index)">完成订单</button>
+						</span></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="text-right" style="margin-right:40px;">
+				<uib-pagination boundary-links="true" items-per-page="pageSize"
+					ng-change="pageChanged()" total-items="totalItems"
+					num-pages="pages" max-size="maxSize" ng-model="currentPage"
+					class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;"
+					first-text="&laquo;" last-text="&raquo;"> </uib-pagination>
+			</div>
+		</div>
+	</div>
+
+
+	<!--finishModal 完成提醒-->
+	<div class="modal fade" id="finishModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document"
+			style="width:400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title">确认完成</h4>
+				</div>
+
+				<div class="modal-body">
+					<p>完成后不可恢复，是否确认完成？</p>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success"
+						ng-click="sureOrder()">确定完成</button>
+					<button type="button" class="btn btn-default"
+						onclick="$('#finishModal').modal('hide');">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--fixmodal-->
+	<div class="modal fade" id="fixModal" style="margin-top: 5%;">
+		<div class="modal-dialog" style="width:700px;">
+			<div class="modal-content">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>商品名</th>
+							<th>商品价格</th>
+							<th>商品数量</th>
+							<th>商品总价</th>
+							<th>图片</th>
+
+						</tr>
+					</thead>
+					<tbody id="fix">
+						<tr ng-repeat="x in order">
+							<td><span ng-bind="x.goodsName"
+								style="height: 60px;line-height: 60px"></span></td>
+							<td><span ng-bind="x.price"
+								style="height: 60px;line-height: 60px"></span></td>
+							<td><span ng-bind="x.number"
+								style="height: 60px;line-height: 60px"></span></td>
+							<td><span style="height: 60px;line-height: 60px">{{x.number*x.price}}</span></td>
+							<td><img src="{{x.url}}" style="width:40px;height:60px"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- Modal 删除提醒 -->
+	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document"
+			style="width:400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title">确认取消</h4>
+				</div>
+
+				<div class="modal-body">
+					<p>取消后不可恢复，是否确认取消？</p>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger"
+						ng-click="deleteOrder()">确定取消</button>
+					<button type="button" class="btn btn-default"
+						onclick="$('#deleteModal').modal('hide');">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

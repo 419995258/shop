@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body ng-app="centerApp">
+<div class="container qz_content" >	
+	<div class="row">		
+		<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" >	
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" id="user_box">	
+			<nav class="navbar kk">
+			<span class="navbar-brand">我的资料</span>
+			</nav>
+			
+			<ul class="list-group">
+				<li class="list-group-item use_li">
+					<span class="list_left">用户名</span>
+					<span class="list_right" ng-bind="userInfo.username"></span>					
+				</li>
+				<li class="list-group-item use_li">
+					<span class="list_left">昵称</span>
+					<input type="text" class="list_right_input" placeholder="{{userInfo.name}}" ng-model='userInfo.name'/>
+				</li>
+				
+				<li class="list-group-item use_li">
+					<span class="list_left">密码</span>
+					<input type="password" class="list_right_input" placeholder="{{userInfo.password}}" ng-model='userInfo.password'/>
+				</li>
+
+				<li class="list-group-item use_li">
+					<span class="list_left">家庭住址</span>
+					<input type="text" class="list_right_input" placeholder="{{userInfo.address}}"ng-model='userInfo.address' />
+				</li>
+				
+				<li class="list-group-item use_li">
+					<span class="list_left">手机号</span>
+					<input type="text" class="list_right_input" placeholder="{{userInfo.tel}}" ng-model='userInfo.tel'/>
+				</li>
+
+	
+			</ul>
+			
+			<button style="width: 100%;" class="btn btn-info btn-lg " type="submit" ng-click="updateUserInfo()">保存修改</button>
+			
+			<div class="blank_200"></div>
+		</div>		
+		
+	</div>
+</div>
+	</body>
+</html>

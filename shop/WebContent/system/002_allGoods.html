@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+
+<!-- 上传图片插件 -->
+<link href="../static/css/bootstrap/fileinput.css" media="all"
+	rel="stylesheet" type="text/css" />
+<script src="../static/js/lib/bootstrap/fileinput.js"
+	type="text/javascript"></script>
+<script src="../static/js/lib/bootstrap/fileinput_locale_zh.js"
+	type="text/javascript"></script>
+
+<script>
+	function gotop(e) {
+		$('.gotopBtn').removeClass('btn-success');
+		$(e).addClass('btn-success');
+	};
+</script>
+
+<body ng-app="allGoodsApp">
+	<!--搜索栏-->
+	<nav class="navbar navbar-default">
+		<span class="navbar-brand">全部商品</span>
+
+		<form class="navbar-form navbar-right">
+			<button type="button" class="btn btn-success btn-default"
+				ng-click="openAddNewsPage()">新增</button>
+
+			<div class="input-group search_group">
+				<input type="text" class="form-control" placeholder="请输入搜索的商品名"
+					ng-model='queryText'> <span class="input-group-btn">
+					<button class="btn btn-default" type="button"
+						ng-click='pageChanged()'>搜索</button>
+				</span>
+			</div>
+			<!-- /input-group -->
+
+		</form>
+	</nav>
+
+	<div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>发布时间</th>
+						<th>商品名称</th>
+						<th>商品图片</th>
+						<th>商品价格</th>
+						<th>订单次数</th>
+						<th><span class="opt">操作</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="x in goodsMini">
+						<td><span class="czjz" ng-bind="x.strCreateTime"></span></td>
+						<td><span class="czjz" ng-bind="x.name"></span></td>
+						<td><img src="{{x.url}}"></td>
+						<td><span class="czjz" ng-bind="x.price"></span></td>
+						<td><span class="czjz" ng-bind="x.num"></span></td>
+
+						<td>
+						<span class="czjz"><button type="button" class="btn btn-sm gotopBtn "
+						ng-class="{true: 'btn-sm', false: 'btn-success'}[x.down]"
+						ng-click="downGoods($index)">上架</button></span><span class="czjz">
+								<button type="button" class="btn btn-warning btn-sm"
+									ng-click="openXPage($index)">修改</button>
+						</span> <span class="czjz">
+								<button type="button" class="btn btn-danger btn-sm"
+									ng-click="openDelPage($index)">删除</button>
+						</span></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="text-right" style="margin-right: 40px;">
+				<uib-pagination boundary-links="true" items-per-page="pageSize"
+					ng-change="pageChanged()" total-items="totalItems"
+					num-pages="pages" max-size="maxSize" ng-model="currentPage"
+					class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;"
+					first-text="&laquo;" last-text="&raquo;"> </uib-pagination>
+			</div>
+		</div>
+	</div>
+	<!--addmodal-->
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-backdrop="static">
+		<div class="modal-dialog modal-lg" role="document"
+			style="width:800px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title">添加数据</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-2 control-label">商品名称:</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" ng-model="goods.name" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-2 control-label">商品价格:</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" ng-model="goods.price" />
+							</div>
+						</div>
+
+
+						<h3 class="qu_title">上传图片</h3>
+						<!-- 	<div class="displayin-bl positionr" ng-repeat="x in pictures">
+									<img style="width:120px;height:80px; margin-left:50px;"
+								class="img-responsive displayin-bl margincenter marginright10 marginbottom10 fapiao sqt"
+								ng-src="{{x.fileurl}}" />
+					 	</div>  -->
+						<div style="width:90%; margin-left:5%; margin-top:10px;">
+							<input id="file-5" class="file" type="file" multiple name="imgs"
+								data-preview-file-type="any"
+								data-upload-url="../goodsmanageC/uploadTemp"
+								data-preview-file-icon="">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="xinzeng" type="button" class="btn btn-success"
+						ng-click="subNew()">保存</button>
+					<button type="button" class="btn btn-default"
+						onclick="$('#addModal').modal('hide');">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+	</div>
+	<!--fixmodal-->
+	<div class="modal fade" id="fixModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" data-backdrop="static">
+		<div class="modal-dialog modal-lg" role="document"
+			style="width:800px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title">添加数据</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-2 control-label">商品名称:</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" ng-model="goods.name" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-2 control-label">商品价格:</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" ng-model="goods.price" />
+							</div>
+						</div>
+						<div class="displayin-bl positionr">
+							<!-- <img style="width:120px;height:80px; margin-left:50px;"
+								class="img-responsive displayin-bl margincenter marginright10 marginbottom10 fapiao sqt"
+								ng-src="{{pictures.fileurl}}" /> -->
+							<img style="width:120px;height:80px; margin-left:50px;"
+								class="img-responsive displayin-bl margincenter marginright10 marginbottom10 fapiao sqt"
+								ng-src="{{goods.url}}" />
+						</div>
+
+						<h3 class="qu_title">上传图片</h3>
+						<!-- 	<div class="displayin-bl positionr" ng-repeat="x in pictures">
+									<img style="width:120px;height:80px; margin-left:50px;"
+								class="img-responsive displayin-bl margincenter marginright10 marginbottom10 fapiao sqt"
+								ng-src="{{x.fileurl}}" />
+					 	</div>  -->
+						<div style="width:90%; margin-left:5%; margin-top:10px;">
+							<input id="file-6" class="file" type="file" multiple name="imgs"
+								data-preview-file-type="any"
+								data-upload-url="../goodsmanageC/uploadTemp"
+								data-preview-file-icon="">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="xinzeng" type="button" class="btn btn-success"
+						ng-click="alter()">保存</button>
+					<button type="button" class="btn btn-default"
+						onclick="$('#fixModal').modal('hide');">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+	</div>
+	<!-- Modal 删除提醒 -->
+	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document"
+			style="width: 400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title">确认删除</h4>
+				</div>
+
+				<div class="modal-body">
+					<p>删除后不可恢复，是否确认删除？</p>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" ng-click="choseD()">确定删除</button>
+					<button type="button" class="btn btn-default"
+						onclick="$('#deleteModal').modal('hide');">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

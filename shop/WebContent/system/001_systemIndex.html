@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<title></title>
+
+		<!-- 新 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet" href="../static/css/bootstrap/bootstrap.min.css">
+		<link href="../static/css/dashboard.css" rel="stylesheet">
+		<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+		<script src="../static/js/lib/jquery/jquery-2.1.4.min.js"></script>
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="../static/js/lib/bootstrap/bootstrap.min.js"></script>
+		<!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+		<!--[if lt IE 9]>
+	<script src="../static/js/lib/bootstrap/html5.min.js"></script>
+	<script src="../static/js/lib/bootstrap/respond.min.js"></script>
+<![endif]-->
+
+		<!-- 自定义样式 -->
+		<link rel="stylesheet" href="../static/css/systemStyle.css">
+
+		<!-- 路由相关js -->
+		<script type="text/javascript" src="../static/js/lib/angular/angular.min.js"></script>
+		<script type="text/javascript" src="../static/js/lib/angular/angular-animate 1.4.min.js"></script>
+		<script type="text/javascript" src="../static/js/lib/angular/angular-ui-router v1.0.0-alpha.5.min.js"></script>
+		<script type="text/javascript" src="../static/js/lib/angular/ui-bootstrap/ui-bootstrap.min.js"></script>
+		<!-- 国际化相关js -->
+		<script type="text/javascript" src="../static/js/lib/angular/angular-translate.min.js"></script>
+		<script type="text/javascript" src="../static/js/lib/angular/angular-cookies.min.js"></script>
+		<!-- 国际化相关js -->
+
+		<script type="text/javascript" src="../static/js/lib/angular/tm.pagination.js"></script>
+		<!--分页?-->
+		<link type="text/css" rel="stylesheet" href="../static/css/views/system/page-list.css" />
+		<!--分页样式?-->
+
+		<!-- 分页 -->
+		<script type="text/javascript" src="../static/js/lib/angular/ui-bootstrap/ui-bootstrap-tpls 0.14.3.min.js"></script>
+
+		<!-- 校验必填项 -->
+		<script type="text/javascript" src="../static/js/lib/global.js"></script>
+		
+		<!--页面js-->
+		<script type="text/javascript" src="../static/js/system/001_systemIndex.js"></script>
+		<script type="text/javascript" src="../static/js/system/002_allGoods.js"></script>
+		<script type="text/javascript" src="../static/js/system/003_allOrder.js"></script>
+		<script type="text/javascript" src="../static/js/system/003_allOrder2.js"></script>
+		<script type="text/javascript" src="../static/js/system/004_allUser.js"></script>
+		<script type="text/javascript" src="../static/js/system/005_loginLog.js"></script>
+	</head>
+	<body ng-app="systemIndexApp">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#"><span>购物管理系统</span></a>
+				</div>
+				
+			</div>
+		</nav>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-3 col-md-2 sidebar">
+					<ul class="nav nav-sidebar main_menu">
+						<li class="menu_btn" onclick="changeActive(this)"  id="allGoods" ui-sref="allGoods"><span class="glyphicon glyphicon-barcode"style="margin-right: 20px;"></span><span>全部商品</span></li>
+						<li class="menu_btn" onclick="changeActive(this)"  id="allOrder" ui-sref="allOrder"><span class="glyphicon glyphicon-time"style="margin-right: 20px;margin-left: 20px;"></span><span>待处理订单</span></li>
+						<li class="menu_btn" onclick="changeActive(this)"  id="allOrder2" ui-sref="allOrder2"><span class="glyphicon glyphicon-ok"style="margin-right: 20px;margin-left: 20px;"></span><span>已完成订单</span></li>
+						<li class="menu_btn" onclick="changeActive(this)"  id="allUser" ui-sref="allUser"><span class="glyphicon glyphicon-user"style="margin-right: 20px;"></span><span>全部用户</span></li>
+						<li class="menu_btn" onclick="changeActive(this)"  id="loginLog" ui-sref="loginLog"><span class="glyphicon glyphicon-list-alt"style="margin-right: 20px;"></span><span>登录日志</span></li>
+						<!-- <li class="menu_lj">累计访问人数：<span>556</span></li>
+						<li class="menu_lj">累计交易额度：<span>556</span></li> -->
+					</ul>
+				</div>
+				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ui-view>
+
+				</div>
+			</div>
+		</div>
+		
+		<style>
+			.menu_box {
+				
+				-moz-user-select: none;
+				-khtml-user-select: none;
+				user-select: none;
+			}
+		</style>
+
+		<script>
+			function changeActive(e) {
+				$('.menu_btn').removeClass('active');
+				$(e).addClass('active');
+			};
+			
+			/** ******************************************查询访问人数，交易额度**************************************** */
+			function queryAdd(){
+				$http({
+					method : "POST",
+					url : "../userC/queryAdd",
+				}).success(function(data, status) {
+					
+					console.log("查询成功");
+				});
+			};
+		</script>
+	</body>
+</html>
