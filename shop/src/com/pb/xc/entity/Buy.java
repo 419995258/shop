@@ -13,6 +13,8 @@ public class Buy {
 
     private Double money;
 
+    private String note;
+
     public Integer getId() {
         return id;
     }
@@ -51,5 +53,13 @@ public class Buy {
 
     public void setMoney(Double money) {
         this.money = money;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note == null ? null : note.trim();
     }
 }

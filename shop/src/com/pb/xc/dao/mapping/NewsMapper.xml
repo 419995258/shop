@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pb.xc.dao.BuyMapper" >
-  <resultMap id="BaseResultMap" type="com.pb.xc.entity.Buy" >
+<mapper namespace="com.pb.xc.dao.NewsMapper" >
+  <resultMap id="BaseResultMap" type="com.pb.xc.entity.News" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="state" property="state" jdbcType="INTEGER" />
-    <result column="time" property="time" jdbcType="TIMESTAMP" />
-    <result column="money" property="money" jdbcType="DOUBLE" />
-    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.pb.xc.entity.News" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,16 +67,21 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, state, time, money, note
+    id, title
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pb.xc.entity.BuyExample" >
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.pb.xc.entity.NewsExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from t_buy
+    ,
+    <include refid="Blob_Column_List" />
+    from t_news
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,134 +89,122 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pb.xc.entity.NewsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_news
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_buy
+    ,
+    <include refid="Blob_Column_List" />
+    from t_news
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_buy
+    delete from t_news
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pb.xc.entity.BuyExample" >
-    delete from t_buy
+  <delete id="deleteByExample" parameterType="com.pb.xc.entity.NewsExample" >
+    delete from t_news
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pb.xc.entity.Buy"  useGeneratedKeys="true" keyProperty="id">
-    insert into t_buy (user_id, state, 
-      time, money, note)
-    values ( #{userId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
-      #{time,jdbcType=TIMESTAMP}, #{money,jdbcType=DOUBLE}, #{note,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.pb.xc.entity.News"  useGeneratedKeys="true" keyProperty="id">
+    insert into t_news (title, content
+      )
+    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.pb.xc.entity.Buy"  useGeneratedKeys="true" keyProperty="id">
-    insert into t_buy
+  <insert id="insertSelective" parameterType="com.pb.xc.entity.News"  useGeneratedKeys="true" keyProperty="id">
+    insert into t_news
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        user_id,
+      <if test="title != null" >
+        title,
       </if>
-      <if test="state != null" >
-        state,
-      </if>
-      <if test="time != null" >
-        time,
-      </if>
-      <if test="money != null" >
-        money,
-      </if>
-      <if test="note != null" >
-        note,
+      <if test="content != null" >
+        content,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
       </if>
-      <if test="state != null" >
-        #{state,jdbcType=INTEGER},
-      </if>
-      <if test="time != null" >
-        #{time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="money != null" >
-        #{money,jdbcType=DOUBLE},
-      </if>
-      <if test="note != null" >
-        #{note,jdbcType=VARCHAR},
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByExampleSelective" parameterType="map" >
-    update t_buy
+    update t_news
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null" >
-        user_id = #{record.userId,jdbcType=INTEGER},
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.state != null" >
-        state = #{record.state,jdbcType=INTEGER},
-      </if>
-      <if test="record.time != null" >
-        time = #{record.time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.money != null" >
-        money = #{record.money,jdbcType=DOUBLE},
-      </if>
-      <if test="record.note != null" >
-        note = #{record.note,jdbcType=VARCHAR},
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
       </if>
     </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_news
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update t_buy
+    update t_news
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      state = #{record.state,jdbcType=INTEGER},
-      time = #{record.time,jdbcType=TIMESTAMP},
-      money = #{record.money,jdbcType=DOUBLE},
-      note = #{record.note,jdbcType=VARCHAR}
+      title = #{record.title,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pb.xc.entity.Buy" >
-    update t_buy
+  <update id="updateByPrimaryKeySelective" parameterType="com.pb.xc.entity.News" >
+    update t_news
     <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="state != null" >
-        state = #{state,jdbcType=INTEGER},
-      </if>
-      <if test="time != null" >
-        time = #{time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="money != null" >
-        money = #{money,jdbcType=DOUBLE},
-      </if>
-      <if test="note != null" >
-        note = #{note,jdbcType=VARCHAR},
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pb.xc.entity.Buy" >
-    update t_buy
-    set user_id = #{userId,jdbcType=INTEGER},
-      state = #{state,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP},
-      money = #{money,jdbcType=DOUBLE},
-      note = #{note,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pb.xc.entity.News" >
+    update t_news
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pb.xc.entity.News" >
+    update t_news
+    set title = #{title,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

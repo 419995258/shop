@@ -11,9 +11,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mongodb.util.Hash;
 import com.pb.xc.controller.vo.BuyVo;
-import com.pb.xc.controller.vo.GoodsVo;
 import com.pb.xc.controller.vo.Message;
 import com.pb.xc.controller.vo.OrderVo;
 import com.pb.xc.controller.vo.ResultVo;
@@ -157,7 +155,7 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 
 		List<BuyVo> buyVoList = new ArrayList<>();
 		// 搜索订单；0：全查，1：按姓名查，2：按电话查
-		switch (param.getQueryType()) {
+		/*switch (param.getQueryType()) {
 		case 0:
 			buyVoList = buyMapper.queryWaitOrder();
 			break;
@@ -173,7 +171,7 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 		default:
 			buyVoList = buyMapper.queryWaitOrder();
 			break;
-		}
+		}*/
 
 		// 修改时间为string类型
 		if (!ObjectUtil.collectionIsEmpty(buyVoList)) {
@@ -210,8 +208,8 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 		int record = buyMapper.updateByPrimaryKeySelective(buy);
 		if (record > 0) {
 			OrderExample orderExample = new OrderExample();
-			orderExample.createCriteria().andUserIdEqualTo(buyVo.getUserId())
-					.andStateEqualTo(1);
+			/*orderExample.createCriteria().andUserIdEqualTo(buyVo.getUserId())
+					.andStateEqualTo(1);*/
 			List<Order> orderList = orderMapper.selectByExample(orderExample);
 			if (!ObjectUtil.collectionIsEmpty(orderList)) {
 				for (Iterator iterator = orderList.iterator(); iterator
@@ -247,8 +245,8 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 		int record = buyMapper.updateByPrimaryKeySelective(buy);
 		if (record > 0) {
 			OrderExample orderExample = new OrderExample();
-			orderExample.createCriteria().andUserIdEqualTo(buyVo.getUserId())
-					.andStateEqualTo(1);
+			/*orderExample.createCriteria().andUserIdEqualTo(buyVo.getUserId())
+					.andStateEqualTo(1);*/
 			List<Order> orderList = orderMapper.selectByExample(orderExample);
 			if (!ObjectUtil.collectionIsEmpty(orderList)) {
 				for (Iterator iterator = orderList.iterator(); iterator
@@ -277,7 +275,8 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 	public Message queryOrderData(BuyVo buyVo) throws Exception {
 		Message message = new Message();
 		List<OrderVo> orderVoList = new ArrayList<>();
-		orderVoList = orderMapper.queryWaitOrderData(buyVo.getUserId());
+		//orderVoList = orderMapper.queryWaitOrderData(buyVo.getUserId());
+		orderVoList = null;
 		message.setSuccess(true);
 		Map<String, Object> map = new HashMap<>();
 		map.put("data", orderVoList);
@@ -291,7 +290,8 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 	public Message queryAllOrderData(UserVo userVo) throws Exception {
 		Message message = new Message();
 		List<OrderVo> orderVoList = new ArrayList<>();
-		orderVoList = orderMapper.queryAllOrderData(userVo.getId());
+		//orderVoList = orderMapper.queryAllOrderData(userVo.getId());
+		orderVoList = null;
 		if(!ObjectUtil.collectionIsEmpty(orderVoList)){
 			for (Iterator iterator = orderVoList.iterator(); iterator.hasNext();) {
 				OrderVo orderVo = (OrderVo) iterator.next();
@@ -332,7 +332,8 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 		this.setPageInfo(psize, pageNum);
 		
 		
-		List<OrderVo> orderVos = orderMapper.queryAllGoodsBuyByUserId(param.getUserId());
+		//List<OrderVo> orderVos = orderMapper.queryAllGoodsBuyByUserId(param.getUserId());
+		List<OrderVo> orderVos = null;
 		if(!ObjectUtil.collectionIsEmpty(orderVos)){
 			for (Iterator iterator = orderVos.iterator(); iterator.hasNext();) {
 				OrderVo orderVo = (OrderVo) iterator.next();

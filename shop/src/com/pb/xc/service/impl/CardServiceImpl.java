@@ -49,6 +49,7 @@ public class CardServiceImpl extends FengYeBasic implements ICardService {
 	
 	@Autowired
 	private AddMapper addMapper;
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -189,13 +190,34 @@ public class CardServiceImpl extends FengYeBasic implements ICardService {
 	 * 立即下单
 	 */
 	public Message insertOrder(OrderVo orderVo) throws Exception {
-		//购买总价格
-		double money = 0;
 		Message message = new Message();
 		//获取购物车集合
 		List<Card> cardList = orderVo.getCardList();
+		//购买总价格
+		double money = 0;
+		Buy buy = new Buy();
+		//添加订单	
+		for (Iterator iterator = cardList.iterator(); iterator.hasNext();) {
+			Card card = (Card) iterator.next();
+			//商品数
+			int number = card.getCardnumber();
+			//购买总价格增加
+			money =money +  card.getCardnumber() * card.getGoodsPrice();
+		}
 		//获取用户id
 		int userId = orderVo.getUserId();
+		buy.setUserId(userId);
+		//订单状态
+		buy.setState(1);
+		//订单生成时间
+		buy.setTime(DateUtil.getCurrentDate(DateUtil.DATE_STYLE5));
+		//订单金额
+		buy.setMoney(money);
+		//订单备注
+		buy.setNote(orderVo.getNote());
+		buyMapper.insertSelective(buy);
+		
+		//TODO 添加商品
 		//循环添加订单
 		for (Iterator iterator = cardList.iterator(); iterator.hasNext();) {
 			Card card = (Card) iterator.next();
@@ -204,14 +226,12 @@ public class CardServiceImpl extends FengYeBasic implements ICardService {
 			int goodsId = card.getGoodsId();
 			//商品数
 			int number = card.getCardnumber();
+			order.setBuyId(buy.getId());
 			order.setGoodsId(goodsId);
 			order.setNumber(number);
 			order.setState(1);
 			order.setTime(DateUtil.getCurrentDate(DateUtil.DATE_STYLE5));
-			order.setUserId(userId);
 			orderMapper.insertSelective(order);
-			//购买总价格增加
-			money += card.getCardnumber() * card.getGoodsPrice();
 			//添加商品订单次数
 			//1.查询商品
 			Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
@@ -223,26 +243,8 @@ public class CardServiceImpl extends FengYeBasic implements ICardService {
 		//删除购物车数据
 		CardExample cardExample = new CardExample();
 		cardExample.createCriteria().andUserIdEqualTo(userId);
-		int record = cardMapper.deleteByExample(cardExample);
-		if(record>0){
-			//添加购买信息
-			Buy buy = new Buy();
-			buy.setMoney(money);
-			buy.setState(1);
-			buy.setTime(DateUtil.getCurrentDate(DateUtil.DATE_STYLE5));
-			buy.setUserId(userId);
-			//数据库添加数据
-			buyMapper.insertSelective(buy);
-			//更新交易总额
-			AddExample addExample = new AddExample();
-			List<Add> addList = addMapper.selectByExample(addExample);
-			if(!ObjectUtil.collectionIsEmpty(addList)){
-				Add add = addList.get(0);
-				add.setMoney(add.getMoney() + money);
-				addMapper.updateByPrimaryKeySelective(add);
-			}
-			message.setSuccess(true);
-		}
+		cardMapper.deleteByExample(cardExample);
+		
 		return message;
 	}
 }

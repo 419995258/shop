@@ -5,7 +5,7 @@ import java.util.Date;
 public class Order {
     private Integer id;
 
-    private Integer userId;
+    private Integer buyId;
 
     private Integer goodsId;
 
@@ -14,20 +14,10 @@ public class Order {
     private Integer state;
 
     private String note;
-    
+
     private Integer number;
-    
-    
 
-    public Integer getNumber() {
-		return number;
-	}
-
-	public void setNumber(Integer number) {
-		this.number = number;
-	}
-
-	public Integer getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -35,12 +25,12 @@ public class Order {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getBuyId() {
+        return buyId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setBuyId(Integer buyId) {
+        this.buyId = buyId;
     }
 
     public Integer getGoodsId() {
@@ -73,5 +63,13 @@ public class Order {
 
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 }
