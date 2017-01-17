@@ -8,6 +8,8 @@ import com.pb.xc.entity.Card;
 public class OrderVo {
 	private Integer id;
 
+	private Integer userId;
+	
 	private Integer buyId;
 
 	private Integer goodsId;
@@ -43,6 +45,14 @@ public class OrderVo {
 	
 	
 	
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
 	public List<Card> getCardList() {
 		return cardList;
