@@ -23,6 +23,7 @@ import com.pb.xc.dao.OrderMapper;
 import com.pb.xc.dao.OrderMapperExt;
 import com.pb.xc.dao.UserMapper;
 import com.pb.xc.entity.Buy;
+import com.pb.xc.entity.BuyExample;
 import com.pb.xc.entity.Order;
 import com.pb.xc.entity.OrderExample;
 import com.pb.xc.entity.User;
@@ -277,11 +278,11 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 	 * .vo.ResultVo)
 	 */
 	/**
-	 * 查询所有用户购买商品信息
+	 * 查询所有用户购买商品订单信息
 	 */
 	public ResultVo queryAllGoodsBuyByUserId(ResultVo param) throws Exception {
 		ResultVo resultVo = new ResultVo();
-		List<OrderVo> Vos = new ArrayList<>();
+		List<BuyVo> buyVos = new ArrayList<>();
 
 		String pagesize = param.getPageSize();
 		String currentpage = param.getCurrentpage();
@@ -298,19 +299,25 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 		}
 		this.setPageInfo(psize, pageNum);
 
-		// List<OrderVo> orderVos =
-		// orderMapper.queryAllGoodsBuyByUserId(param.getUserId());
-		List<OrderVo> orderVos = null;
-		if (!ObjectUtil.collectionIsEmpty(orderVos)) {
-			for (Iterator iterator = orderVos.iterator(); iterator.hasNext();) {
-				OrderVo orderVo = (OrderVo) iterator.next();
-				orderVo.setStrTime(DateUtil.getDateStr(DateUtil.DATE_STYLE5,
-						orderVo.getTime()));
+	
+		
+		BuyExample buyExample = new BuyExample();
+		buyExample.createCriteria().andUserIdEqualTo(param.getUserId());
+		List<Buy> buyList = buyMapper.selectByExample(buyExample);
+		if(!ObjectUtil.collectionIsEmpty(buyList)){
+			for (Iterator iterator = buyList.iterator(); iterator.hasNext();) {
+				Buy buy = (Buy) iterator.next();
+				BuyVo buyVo = new BuyVo();
+				BeanUtils.copyProperties(buyVo, buy);
+				buyVo.setStrTime(DateUtil.getDateStr(DateUtil.DATE_STYLE5,buy.getTime()));
+				buyVos.add(buyVo);
 			}
 		}
+		
+		
 
-		this.setReturnPageInfo(psize, pageNum, orderVos, resultVo);
-		resultVo.setRows(orderVos);
+		this.setReturnPageInfo(psize, pageNum, buyList, resultVo);
+		resultVo.setRows(buyVos);
 		return resultVo;
 	}
 

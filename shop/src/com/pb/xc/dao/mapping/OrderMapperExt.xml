@@ -24,9 +24,8 @@
 		FROM t_order t
 		INNER JOIN t_goods t1
 		ON t.goods_id = t1.id
-		WHERE t.state
-		= 1
-		AND t.buy_id = #{buyId,jdbcType=INTEGER}
+		WHERE 
+		t.buy_id = #{buyId,jdbcType=INTEGER}
 	</select>
 
 
@@ -50,9 +49,8 @@
 		FROM t_order t
 		INNER JOIN t_goods t1
 		ON t.goods_id = t1.id
-		WHERE t.state
-		= 2
-		AND t.buy_id = #{buyId,jdbcType=INTEGER}
+		WHERE 
+		t.buy_id = #{buyId,jdbcType=INTEGER}
 	</select>
 
 	<!--*************************************************查询所有购买的商品******************************************** -->
@@ -74,6 +72,9 @@
 		ON t.goods_id = t1.id
 		WHERE t.user_id = #{userId,jdbcType=INTEGER}
 	</select>
+
+
+
 
 
 

@@ -13,6 +13,8 @@ public class BuyVo {
 
     private Double money;
     
+    private String note;
+    
     private String strTime;//时间的string格式
     
     private String address;//用户地址
@@ -27,7 +29,15 @@ public class BuyVo {
     
     
 
-    public String getStrTime() {
+    public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public String getStrTime() {
 		return strTime;
 	}
 
