@@ -244,7 +244,6 @@ public class CardServiceImpl extends FengYeBasic implements ICardService {
 		CardExample cardExample = new CardExample();
 		cardExample.createCriteria().andUserIdEqualTo(userId);
 		cardMapper.deleteByExample(cardExample);
-		//
 		return message;
 	}
 }
