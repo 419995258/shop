@@ -98,7 +98,7 @@ public class CardServiceImpl extends FengYeBasic implements ICardService {
 				message.setSuccess(true);
 			}
 		}
-
+//
 		return message;
 	}
 
