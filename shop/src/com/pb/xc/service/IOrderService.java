@@ -66,7 +66,7 @@ public interface IOrderService {
 	 * pb
 	 * 16/09/11
 	 */
-	public Message queryAllOrderData(UserVo userVo) throws Exception;
+	public Message queryAllOrderData(BuyVo buyVo) throws Exception;
 	
 	
 	/**

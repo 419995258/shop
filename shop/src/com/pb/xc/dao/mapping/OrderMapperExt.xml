@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pb.xc.dao.OrderMapperExt">
+	
+	
+
+	<!--*************************************************查询未处理订单详情单******************************************** -->
+	<sql id="queryWaitOrderData">
+		t.buy_id,
+		t.goods_id,
+		t.time,
+		t.note,
+		t.number,
+		t1.name AS
+		goodsName,
+		t1.price,
+		t1.url
+	</sql>
+
+	<select id="queryWaitOrderData" resultMap="BaseResultMap2"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="queryWaitOrderData" />
+		FROM t_order t
+		INNER JOIN t_goods t1
+		ON t.goods_id = t1.id
+		WHERE t.state
+		= 1
+		AND t.buy_id = #{buyId,jdbcType=INTEGER}
+	</select>
+
+
+	<!--*************************************************查询已经处理订单详情单******************************************** -->
+	<sql id="queryAllOrderData">
+		t.buy_id,
+		t.goods_id,
+		t.time,
+		t.note,
+		t.number,
+		t1.name AS
+		goodsName,
+		t1.price,
+		t1.url
+	</sql>
+
+	<select id="queryAllOrderData" resultMap="BaseResultMap2"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="queryAllOrderData" />
+		FROM t_order t
+		INNER JOIN t_goods t1
+		ON t.goods_id = t1.id
+		WHERE t.state
+		= 2
+		AND t.buy_id = #{buyId,jdbcType=INTEGER}
+	</select>
+
+	<!--*************************************************查询所有购买的商品******************************************** -->
+	<sql id="queryAllGoodsBuyByUserId">
+		t.time,
+		t1.name,
+		t1.url,
+		t.number,
+		t1.price,
+		t.note
+	</sql>
+
+	<select id="queryAllGoodsBuyByUserId" resultMap="BaseResultMap2"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="queryAllGoodsBuyByUserId" />
+		FROM t_order t
+		INNER JOIN t_goods t1
+		ON t.goods_id = t1.id
+		WHERE t.user_id = #{userId,jdbcType=INTEGER}
+	</select>
+
+
+
+	<!--*************************************************返回值******************************************** -->
+	<resultMap id="BaseResultMap2" type="com.pb.xc.controller.vo.OrderVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="buy_id" property="buyId" jdbcType="INTEGER" />
+		<!-- <result column="goods_id" property="goodsId" jdbcType="INTEGER" /> -->
+		<result column="time" property="time" jdbcType="TIMESTAMP" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="tel" property="tel" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="note" property="note" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+		<result column="number" property="number" jdbcType="INTEGER" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+
+	</resultMap>
+</mapper>

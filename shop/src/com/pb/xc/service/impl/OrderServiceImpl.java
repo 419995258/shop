@@ -17,8 +17,10 @@ import com.pb.xc.controller.vo.OrderVo;
 import com.pb.xc.controller.vo.ResultVo;
 import com.pb.xc.controller.vo.UserVo;
 import com.pb.xc.dao.BuyMapper;
+import com.pb.xc.dao.BuyMapperExt;
 import com.pb.xc.dao.GoodsMapper;
 import com.pb.xc.dao.OrderMapper;
+import com.pb.xc.dao.OrderMapperExt;
 import com.pb.xc.dao.UserMapper;
 import com.pb.xc.entity.Buy;
 import com.pb.xc.entity.Order;
@@ -38,11 +40,17 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 	private OrderMapper orderMapper;
 
 	@Autowired
+	private OrderMapperExt orderMapperExt;
+
+	@Autowired
 	private GoodsMapper goodsMapper;
 
 	@Autowired
 	private BuyMapper buyMapper;
-	
+
+	@Autowired
+	private BuyMapperExt buyMapperExt;
+
 	@Autowired
 	private UserMapper userMapper;
 
@@ -58,7 +66,7 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 	 */
 	public ResultVo queryAllOrder(ResultVo param) throws Exception {
 		ResultVo resultVo = new ResultVo();
-		List<UserVo> vos = new ArrayList<>();
+		List<BuyVo> vos = new ArrayList<>();
 
 		String pagesize = param.getPageSize();
 		String currentpage = param.getCurrentpage();
@@ -75,48 +83,38 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 		}
 		this.setPageInfo(psize, pageNum);
 
-		// 查询已处理订单
+		// 查询未处理订单
 
-		List<User> buyVoList = new ArrayList<>();
-		UserExample userExample = new UserExample();
-		userExample.setOrderByClause("money desc");
-		Criteria cr = userExample.createCriteria();
-		cr.andMoneyGreaterThan(0);
+		List<BuyVo> buyVoList = new ArrayList<>();
 		// 搜索订单；0：全查，1：按姓名查，2：按电话查
 		switch (param.getQueryType()) {
 		case 0:
-			
-			buyVoList = userMapper.selectByExample(userExample);
+			buyVoList = buyMapperExt.queryWaitOrder();
 			break;
 
 		case 1:
-			cr.andNameLike(param.getQueryText());
-			buyVoList = userMapper.selectByExample(userExample);
+			buyVoList = buyMapperExt.queryWaitOrderByName(param.getQueryText());
 			break;
 
 		case 2:
-			cr.andTelLike(param.getQueryText());
-			buyVoList = userMapper.selectByExample(userExample);
+			buyVoList = buyMapperExt.queryWaitOrderByTel(param.getQueryText());
 			break;
 
 		default:
-			buyVoList = userMapper.selectByExample(userExample);
+			buyVoList = buyMapperExt.queryWaitOrder();
 			break;
 		}
 
 		// 修改时间为string类型
 		if (!ObjectUtil.collectionIsEmpty(buyVoList)) {
 			for (Iterator iterator = buyVoList.iterator(); iterator.hasNext();) {
-				User user = (User) iterator.next();
-				UserVo userVo = new UserVo();
-				Date time = user.getRegister();
-				BeanUtils.copyProperties(userVo, user);
-				userVo.setStrRegister(DateUtil
+				BuyVo buyVo = (BuyVo) iterator.next();
+				Date time = buyVo.getTime();
+				buyVo.setStrTime(DateUtil
 						.getDateStr(DateUtil.DATE_STYLE5, time));
-				vos.add(userVo);
+				vos.add(buyVo);
 			}
 		}
-
 		this.setReturnPageInfo(psize, pageNum, buyVoList, resultVo);
 		resultVo.setRows(vos);
 		return resultVo;
@@ -155,23 +153,23 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 
 		List<BuyVo> buyVoList = new ArrayList<>();
 		// 搜索订单；0：全查，1：按姓名查，2：按电话查
-		/*switch (param.getQueryType()) {
+		switch (param.getQueryType()) {
 		case 0:
-			buyVoList = buyMapper.queryWaitOrder();
+			buyVoList = buyMapperExt.queryWaitOrder();
 			break;
 
 		case 1:
-			buyVoList = buyMapper.queryWaitOrderByName(param.getQueryText());
+			buyVoList = buyMapperExt.queryWaitOrderByName(param.getQueryText());
 			break;
 
 		case 2:
-			buyVoList = buyMapper.queryWaitOrderByTel(param.getQueryText());
+			buyVoList = buyMapperExt.queryWaitOrderByTel(param.getQueryText());
 			break;
 
 		default:
-			buyVoList = buyMapper.queryWaitOrder();
+			buyVoList = buyMapperExt.queryWaitOrder();
 			break;
-		}*/
+		}
 
 		// 修改时间为string类型
 		if (!ObjectUtil.collectionIsEmpty(buyVoList)) {
@@ -202,27 +200,10 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 	public Message deleteOrder(BuyVo buyVo) throws Exception {
 		Message message = new Message();
 		Buy buy = new Buy();
-
 		buy.setId(buyVo.getId());
-		buy.setState(0);// 更新订单为2，完成订单
-		int record = buyMapper.updateByPrimaryKeySelective(buy);
-		if (record > 0) {
-			OrderExample orderExample = new OrderExample();
-			/*orderExample.createCriteria().andUserIdEqualTo(buyVo.getUserId())
-					.andStateEqualTo(1);*/
-			List<Order> orderList = orderMapper.selectByExample(orderExample);
-			if (!ObjectUtil.collectionIsEmpty(orderList)) {
-				for (Iterator iterator = orderList.iterator(); iterator
-						.hasNext();) {
-					Order order = (Order) iterator.next();
-					order.setState(0);
-					orderMapper.updateByPrimaryKeySelective(order);
-
-				}
-			}
-			message.setSuccess(true);
-
-		}
+		buy.setState(0);// 更新订单为0，取消订单
+		buyMapper.updateByPrimaryKeySelective(buy);
+		message.setSuccess(true);
 		return message;
 	}
 
@@ -239,26 +220,10 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 	public Message sureOrder(BuyVo buyVo) throws Exception {
 		Message message = new Message();
 		Buy buy = new Buy();
-		// BeanUtils.copyProperties(order, orderVo);
 		buy.setId(buyVo.getId());
 		buy.setState(2);// 更新订单为2，完成订单
-		int record = buyMapper.updateByPrimaryKeySelective(buy);
-		if (record > 0) {
-			OrderExample orderExample = new OrderExample();
-			/*orderExample.createCriteria().andUserIdEqualTo(buyVo.getUserId())
-					.andStateEqualTo(1);*/
-			List<Order> orderList = orderMapper.selectByExample(orderExample);
-			if (!ObjectUtil.collectionIsEmpty(orderList)) {
-				for (Iterator iterator = orderList.iterator(); iterator
-						.hasNext();) {
-					Order order = (Order) iterator.next();
-					order.setState(2);
-					orderMapper.updateByPrimaryKeySelective(order);
-
-				}
-			}
-			message.setSuccess(true);
-		}
+		buyMapper.updateByPrimaryKeySelective(buy);
+		message.setSuccess(true);
 		return message;
 	}
 
@@ -275,27 +240,26 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 	public Message queryOrderData(BuyVo buyVo) throws Exception {
 		Message message = new Message();
 		List<OrderVo> orderVoList = new ArrayList<>();
-		//orderVoList = orderMapper.queryWaitOrderData(buyVo.getUserId());
-		orderVoList = null;
+		orderVoList = orderMapperExt.queryWaitOrderData(buyVo.getId());
 		message.setSuccess(true);
 		Map<String, Object> map = new HashMap<>();
 		map.put("data", orderVoList);
 		message.setResult(map);
 		return message;
 	}
-	
+
 	/**
 	 * 已经处理订单商品详情
 	 */
-	public Message queryAllOrderData(UserVo userVo) throws Exception {
+	public Message queryAllOrderData(BuyVo buyVo) throws Exception {
 		Message message = new Message();
 		List<OrderVo> orderVoList = new ArrayList<>();
-		//orderVoList = orderMapper.queryAllOrderData(userVo.getId());
-		orderVoList = null;
-		if(!ObjectUtil.collectionIsEmpty(orderVoList)){
+		orderVoList = orderMapperExt.queryAllOrderData(buyVo.getId());
+		if (!ObjectUtil.collectionIsEmpty(orderVoList)) {
 			for (Iterator iterator = orderVoList.iterator(); iterator.hasNext();) {
 				OrderVo orderVo = (OrderVo) iterator.next();
-				orderVo.setStrTime(DateUtil.getDateStr(DateUtil.DATE_STYLE5,orderVo.getTime()));
+				orderVo.setStrTime(DateUtil.getDateStr(DateUtil.DATE_STYLE5,
+						orderVo.getTime()));
 			}
 		}
 		message.setSuccess(true);
@@ -307,7 +271,10 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.pb.xc.service.IOrderService#queryAllGoodsBuyByUserId(com.pb.xc.controller.vo.ResultVo)
+	 * 
+	 * @see
+	 * com.pb.xc.service.IOrderService#queryAllGoodsBuyByUserId(com.pb.xc.controller
+	 * .vo.ResultVo)
 	 */
 	/**
 	 * 查询所有用户购买商品信息
@@ -330,17 +297,18 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 			pageNum = ObjectUtil.convToInteger(currentpage);
 		}
 		this.setPageInfo(psize, pageNum);
-		
-		
-		//List<OrderVo> orderVos = orderMapper.queryAllGoodsBuyByUserId(param.getUserId());
+
+		// List<OrderVo> orderVos =
+		// orderMapper.queryAllGoodsBuyByUserId(param.getUserId());
 		List<OrderVo> orderVos = null;
-		if(!ObjectUtil.collectionIsEmpty(orderVos)){
+		if (!ObjectUtil.collectionIsEmpty(orderVos)) {
 			for (Iterator iterator = orderVos.iterator(); iterator.hasNext();) {
 				OrderVo orderVo = (OrderVo) iterator.next();
-				orderVo.setStrTime(DateUtil.getDateStr(DateUtil.DATE_STYLE5,orderVo.getTime()));
+				orderVo.setStrTime(DateUtil.getDateStr(DateUtil.DATE_STYLE5,
+						orderVo.getTime()));
 			}
 		}
-		
+
 		this.setReturnPageInfo(psize, pageNum, orderVos, resultVo);
 		resultVo.setRows(orderVos);
 		return resultVo;

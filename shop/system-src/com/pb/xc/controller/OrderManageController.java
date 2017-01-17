@@ -73,8 +73,8 @@ public class OrderManageController {
 	 * 
 	 */
 	@RequestMapping(value = "/queryAllOrderData", method = RequestMethod.POST)
-	public Message queryAllOrderData(@RequestBody UserVo userVo) throws Exception {
-		return orderService.queryAllOrderData(userVo);
+	public Message queryAllOrderData(@RequestBody BuyVo buyVo) throws Exception {
+		return orderService.queryAllOrderData(buyVo);
 	}
 
 }
