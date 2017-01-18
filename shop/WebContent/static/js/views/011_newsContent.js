@@ -10,5 +10,6 @@ aboutAppmodule.controller('newsContentController', function($scope, $http, $root
 		
 	};
 	
+	
 	init();
 });
