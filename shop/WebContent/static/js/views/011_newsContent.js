@@ -5,7 +5,7 @@ aboutAppmodule.controller('newsContentController', function($scope, $http, $root
 	function init() {		
 		if ($state.current.name == 'newsContent') {
 			$('.qz_content > a').removeClass('active');
-			$('#btn_newsContent').addClass('active');
+			$('#btn_news').addClass('active');
 		};
 		
 	};

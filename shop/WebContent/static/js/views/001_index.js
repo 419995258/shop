@@ -1,7 +1,7 @@
 angular.module('phonecatFilters', ['ngCookies', 'pascalprecht.translate']);
 
 var indexApp=angular.module('indexApp', ['ui.router','ui.bootstrap','phonecatFilters','tm.pagination','ngCookies','pascalprecht.translate',
-'homeApp','cardApp','orderApp','centerApp','loginApp','registerApp','passwordRecoveryApp','passwordRecovery2App','aboutApp','newsContentApp']).config(
+'homeApp','cardApp','orderApp','centerApp','loginApp','registerApp','passwordRecoveryApp','passwordRecovery2App','aboutApp','newsContentApp','newsApp']).config(
 		function($stateProvider, $urlRouterProvider) {
 			$urlRouterProvider.otherwise('/home');
 			$stateProvider.state('home', {//首页
@@ -49,11 +49,16 @@ var indexApp=angular.module('indexApp', ['ui.router','ui.bootstrap','phonecatFil
 				templateUrl : '010_about.html',
 				cache:'false',
 				controller: 'aboutController'			
-			}).state('newsContent', {//新闻中心
+			}).state('newsContent', {//新闻内容
 				url : '/newsContent',
 				templateUrl : '011_newsContent.html',
 				cache:'false',
 				controller: 'newsContentController'			
+			}).state('news', {//新闻中心
+				url : '/news',
+				templateUrl : '012_news.html',
+				cache:'false',
+				controller: 'newsController'			
 			});
 		})
 
