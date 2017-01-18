@@ -1,6 +1,6 @@
 angular.module('phonecatFilters', ['ngCookies', 'pascalprecht.translate']);
 
-var systemIndexApp=angular.module('systemIndexApp', ['ui.router','ui.bootstrap','phonecatFilters','tm.pagination','ngCookies','pascalprecht.translate','allGoodsApp','allOrderApp','allOrder2App','allUserApp','loginLogApp','aboutApp'
+var systemIndexApp=angular.module('systemIndexApp', ['ui.router','ui.bootstrap','phonecatFilters','tm.pagination','ngCookies','pascalprecht.translate','allGoodsApp','allOrderApp','allOrder2App','allUserApp','loginLogApp','aboutApp','newsApp'
 ]).config(
 		function($stateProvider, $urlRouterProvider) {
 			$urlRouterProvider.otherwise('/allGoods');
@@ -39,6 +39,12 @@ var systemIndexApp=angular.module('systemIndexApp', ['ui.router','ui.bootstrap',
 				templateUrl : '006_about.html',
 				cache:'false',
 				controller: 'aboutController'
+			})
+			.state('news', {//新闻编辑
+				url : '/news',
+				templateUrl : '007_news.html',
+				cache:'false',
+				controller: 'newsController'
 			});
 		})
 
