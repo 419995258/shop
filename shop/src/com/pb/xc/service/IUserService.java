@@ -3,6 +3,7 @@ package com.pb.xc.service;
 import com.pb.xc.controller.vo.AddVo;
 import com.pb.xc.controller.vo.Message;
 import com.pb.xc.controller.vo.ResultVo;
+import com.pb.xc.entity.About;
 import com.pb.xc.entity.Add;
 import com.pb.xc.entity.User;
 
@@ -110,4 +111,19 @@ public interface IUserService {
 	 * @author PB
 	 */
 	public Message selectPassword(String username)throws Exception;
+	
+	
+	/**
+	 * 
+	 * 查询关于我们
+	 * @param abount
+	 * @return
+	 * @throws Exception
+	 */
+	public About query(About about) throws Exception;
+	
+	/**
+	 * 更新关于我们
+	 */
+	public Message update(About about) throws Exception;
 }

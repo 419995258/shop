@@ -25,7 +25,7 @@
 						<tr ng-repeat="x in order">
 							<td><span ng-bind="x.strTime"></span></td>
 							<td><span ng-bind="x.money"></span>元</td>
-							<td><span ng-bind="x.state"></span></td>
+							<td><span ng-bind="x.strState"></span></td>
 							<td>
 								<span>
 									<button type="button" class="btn btn-warning btn-sm"
@@ -58,7 +58,7 @@
 						</tr>
 					</thead>
 					<tbody id="fix">
-						<tr ng-repeat="x in order">
+						<tr ng-repeat="x in orderItem">
 							<td><span ng-bind="x.goodsName"
 								style="height: 60px;line-height: 60px"></span></td>
 							<td><span ng-bind="x.price"

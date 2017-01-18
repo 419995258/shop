@@ -18,9 +18,12 @@ import com.pb.xc.controller.vo.LOGVo;
 import com.pb.xc.controller.vo.Message;
 import com.pb.xc.controller.vo.ResultVo;
 import com.pb.xc.controller.vo.UserVo;
+import com.pb.xc.dao.AboutMapper;
 import com.pb.xc.dao.AddMapper;
 import com.pb.xc.dao.LOGMapper;
 import com.pb.xc.dao.UserMapper;
+import com.pb.xc.entity.About;
+import com.pb.xc.entity.AboutExample;
 import com.pb.xc.entity.Add;
 import com.pb.xc.entity.AddExample;
 import com.pb.xc.entity.Goods;
@@ -47,6 +50,9 @@ public class UserServiceImpl extends FengYeBasic implements IUserService {
 
 	@Autowired
 	private LOGMapper logMapper;
+	
+	@Autowired
+	private AboutMapper aboutMapper;
 
 	/*
 	 * (non-Javadoc)
@@ -392,6 +398,36 @@ public class UserServiceImpl extends FengYeBasic implements IUserService {
 			message.setSuccess(false);
 		}
 		return message;
+	}
+
+	@Override
+	public About query(About about) throws Exception {
+		// TODO 查询关于我们
+				// int id = abount.getId();
+				AboutExample abountExample = new AboutExample();
+				// abountExample.createCriteria().andIdEqualTo(id);
+				List<About> abountList = aboutMapper
+						.selectByExampleWithBLOBs(abountExample);
+				if (!ObjectUtil.collectionIsEmpty(abountList)) {
+					about = abountList.get(0);
+
+				}
+
+				return about;
+	}
+
+	@Override
+	public Message update(About about) throws Exception {
+		// TODO Auto-generated method stub
+		// TODO 更新关于我们
+				Message message = new Message();
+
+				int record = aboutMapper.updateByPrimaryKeyWithBLOBs(about);
+
+				if (record > 0) {
+					message.setSuccess(true);
+				}
+				return message;
 	}
 
 	/*

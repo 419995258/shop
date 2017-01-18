@@ -13,6 +13,7 @@ import com.pb.xc.controller.vo.Message;
 import com.pb.xc.controller.vo.OrderVo;
 import com.pb.xc.controller.vo.ResultVo;
 import com.pb.xc.controller.vo.UserVo;
+import com.pb.xc.entity.About;
 import com.pb.xc.service.IOrderService;
 
 @RestController
@@ -76,5 +77,7 @@ public class OrderManageController {
 	public Message queryAllOrderData(@RequestBody BuyVo buyVo) throws Exception {
 		return orderService.queryAllOrderData(buyVo);
 	}
+	
+	
 
 }

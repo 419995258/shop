@@ -8,6 +8,8 @@ public class BuyVo {
     private Integer userId;
 
     private Integer state;
+    
+    private String strState;
 
     private Date time;
 
@@ -29,7 +31,15 @@ public class BuyVo {
     
     
 
-    public String getNote() {
+    public String getStrState() {
+		return strState;
+	}
+
+	public void setStrState(String strState) {
+		this.strState = strState;
+	}
+
+	public String getNote() {
 		return note;
 	}
 

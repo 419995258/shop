@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.pb.xc.entity.News" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.pb.xc.entity.News" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, title
+    id, title, time
   </sql>
   <sql id="Blob_Column_List" >
     content
@@ -122,17 +123,23 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pb.xc.entity.News"  useGeneratedKeys="true" keyProperty="id">
-    insert into t_news (title, content
-      )
-    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
-      )
+  <insert id="insert" parameterType="com.pb.xc.entity.News" >
+    insert into t_news (id, title, time, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.pb.xc.entity.News"  useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.pb.xc.entity.News" >
     insert into t_news
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
       <if test="title != null" >
         title,
+      </if>
+      <if test="time != null" >
+        time,
       </if>
       <if test="content != null" >
         content,
@@ -144,6 +151,9 @@
       </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
       </if>
       <if test="content != null" >
         #{content,jdbcType=LONGVARCHAR},
@@ -159,6 +169,9 @@
       <if test="record.title != null" >
         title = #{record.title,jdbcType=VARCHAR},
       </if>
+      <if test="record.time != null" >
+        time = #{record.time,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.content != null" >
         content = #{record.content,jdbcType=LONGVARCHAR},
       </if>
@@ -171,6 +184,7 @@
     update t_news
     set id = #{record.id,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
+      time = #{record.time,jdbcType=TIMESTAMP},
       content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -179,7 +193,8 @@
   <update id="updateByExample" parameterType="map" >
     update t_news
     set id = #{record.id,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR}
+      title = #{record.title,jdbcType=VARCHAR},
+      time = #{record.time,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -190,6 +205,9 @@
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
       </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
       <if test="content != null" >
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
@@ -199,12 +217,14 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pb.xc.entity.News" >
     update t_news
     set title = #{title,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pb.xc.entity.News" >
     update t_news
-    set title = #{title,jdbcType=VARCHAR}
+    set title = #{title,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

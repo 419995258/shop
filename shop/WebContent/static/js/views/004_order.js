@@ -13,7 +13,9 @@ orderAppmodule.controller('orderController', function($scope, $http, $rootScope,
 	$scope.bigCurrentPage = 1;
 	var resultVo = {};
 	$scope.queryText = '';
-	
+	var XIdTemp = '';
+	$scope.jkdIndex = ''; // 点击索引
+	$scope.orderItem= {};
 	
 	
 	
@@ -51,9 +53,9 @@ orderAppmodule.controller('orderController', function($scope, $http, $rootScope,
 		$http({
 			method : "POST",
 			url : "../ordermanageC/queryOrderData",
-			data : $scope.orderMini[$scope.jkdIndex]
+			data : $scope.order[$scope.jkdIndex]
 		}).success(function(data, status) {
-			$scope.order = data.result.data;
+			$scope.orderItem = data.result.data;
 			XIdTemp = '';
 			$('#fixModal').modal('show');
 		});

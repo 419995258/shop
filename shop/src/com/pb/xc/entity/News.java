@@ -1,9 +1,13 @@
 package com.pb.xc.entity;
 
+import java.util.Date;
+
 public class News {
     private Integer id;
 
     private String title;
+
+    private Date time;
 
     private String content;
 
@@ -21,6 +25,14 @@ public class News {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     public String getContent() {

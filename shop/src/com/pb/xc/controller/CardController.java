@@ -20,6 +20,7 @@ import com.pb.xc.entity.User;
 import com.pb.xc.service.ICardService;
 import com.pb.xc.service.IOrderService;
 import com.pb.xc.util.Const;
+import com.pb.xc.util.ObjectUtil;
 
 @RestController
 @RequestMapping("/cardC")
@@ -110,7 +111,13 @@ public class CardController extends BasicController {
 		User user = (User) session.getAttribute(Const.SESSION_CUSTOMER_USER);
 		int userId = user.getId();
 		orderVo.setUserId(userId);
-		return cardService.insertOrder(orderVo);
+		Message message = new Message();
+		if(orderVo.getCardList().size() < 1){
+			message.setMessage("商品不允许为空");
+			return message;
+		}
+		message = cardService.insertOrder(orderVo);
+		return message;
 	}
 	
 	/**

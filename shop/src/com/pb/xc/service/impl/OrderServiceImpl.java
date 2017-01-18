@@ -309,6 +309,22 @@ public class OrderServiceImpl extends FengYeBasic implements IOrderService {
 				Buy buy = (Buy) iterator.next();
 				BuyVo buyVo = new BuyVo();
 				BeanUtils.copyProperties(buyVo, buy);
+				String strState = new String("已取消");
+				switch (buy.getState()) {
+				case 0:
+					strState = "已取消";
+					break;
+				case 1:
+					strState = "处理中";
+					break;
+				case 2:
+					strState = "已完成";
+					break;
+				default:
+					strState = "已取消";
+					break;
+				}
+				buyVo.setStrState(strState);
 				buyVo.setStrTime(DateUtil.getDateStr(DateUtil.DATE_STYLE5,buy.getTime()));
 				buyVos.add(buyVo);
 			}

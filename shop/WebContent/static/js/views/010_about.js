@@ -7,11 +7,25 @@ aboutAppmodule.controller('aboutController', function($scope, $http, $rootScope,
 			$('.qz_content > a').removeClass('active');
 			$('#btn_about').addClass('active');
 		};
-		
+		queryNewsById();
 	};
 	
 	$scope.aboutC = {};
-	$scope.aboutC = {'title':'关于心羽基金','texts':'在国务院新闻办29日举行的发布会上，水利'};
+	function queryNewsById() {
+		var param = {};
+        $http({
+            url: '../otherManageC/showAboutData',
+            method: 'POST',
+            data: param
+        }).success(function (data) {
+			if (!verifyIsNull(data.content)) {
+				data.content = $sce.trustAsHtml(data.content);
+			}
+        	$scope.aboutC = data;
+        }).error(function (response) {
+        });
+    };
+
 
 	init();
 });
