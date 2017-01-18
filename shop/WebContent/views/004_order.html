@@ -14,22 +14,24 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>购买时间</th>
-							<th>商品名称</th>
-							<th>商品图片</th>
-							<th>商品数量</th>
-							<th>商品金额</th>
+							<th>订单时间</th>
+							<th>订单金额</th>
+							<th>订单状态</th>
+							<th>操作</th>
 							
 						</tr>
 					</thead>
 					<tbody >
 						<tr ng-repeat="x in order">
 							<td><span ng-bind="x.strTime"></span></td>
-							<td><span ng-bind="x.name"></span></td>
-							<td><img src="{{x.url}}"></td>
-							<td><span ng-bind="x.number"></span></td>
-							<td>{{(x.price * x.number).toFixed(2)}}元</td>
-							
+							<td><span ng-bind="x.money"></span>元</td>
+							<td><span ng-bind="x.state"></span></td>
+							<td>
+								<span>
+									<button type="button" class="btn btn-warning btn-sm"
+									ng-click="openXD($index)">查看详情</button>
+								</span>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -40,35 +42,38 @@
 			</div>
 
 	</div>
-		<!--详情按钮-->
-		<div class="modal fade" id="fixModal" style="margin-top: 5%;">
-			<div class="modal-dialog" style="width:700px;">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-						<h4 class="modal-title">添加数据</h4>
-					</div>
-					<div class="modal-body">
-						<form class="form-horizontal">
-							<div class="form-group">
-								<label for="inputEmail3" class="col-sm-2 control-label">商品名称:</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" placeholder="{{TXxqItems.name}}" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputEmail3" class="col-sm-2 control-label">商品图片:</label>
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="submit" class="btn btn-primary">保存</button>
-					</div>
-				</div>
-				<!-- /.modal-content -->
+	<!--fixmodal-->
+	<div class="modal fade" id="fixModal" style="margin-top: 5%;">
+		<div class="modal-dialog" style="width:700px;">
+			<div class="modal-content">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>商品名</th>
+							<th>商品价格</th>
+							<th>商品数量</th>
+							<th>商品总价</th>
+							<th>图片</th>
+
+						</tr>
+					</thead>
+					<tbody id="fix">
+						<tr ng-repeat="x in order">
+							<td><span ng-bind="x.goodsName"
+								style="height: 60px;line-height: 60px"></span></td>
+							<td><span ng-bind="x.price"
+								style="height: 60px;line-height: 60px"></span></td>
+							<td><span ng-bind="x.number"
+								style="height: 60px;line-height: 60px"></span></td>
+							<td><span style="height: 60px;line-height: 60px">{{x.number*x.price}}</span></td>
+							<td><img src="{{x.url}}" style="width:40px;height:60px"></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-			<!-- /.modal-dialog -->
+			<!-- /.modal-content -->
 		</div>
+		<!-- /.modal-dialog -->
+	</div>
 	</body>
 </html>

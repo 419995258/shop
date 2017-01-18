@@ -44,6 +44,20 @@ orderAppmodule.controller('orderController', function($scope, $http, $rootScope,
 			}
 		});
 	}
+	/**********************************************查看详情*******************************************/
+	$scope.openXD = function(index) {
+		XIdTemp = index;
+		$scope.jkdIndex = XIdTemp;
+		$http({
+			method : "POST",
+			url : "../ordermanageC/queryOrderData",
+			data : $scope.orderMini[$scope.jkdIndex]
+		}).success(function(data, status) {
+			$scope.order = data.result.data;
+			XIdTemp = '';
+			$('#fixModal').modal('show');
+		});
+	};
 	
 	/********************************************查询所有信息**************************************/ 
 	function queryAllGoodsBuyByUserId() {
