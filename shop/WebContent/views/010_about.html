@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>010_about.html</title>
-	
-    <meta name="keywords" content="keyword1,keyword2,keyword3">
-    <meta name="description" content="this is my page">
-    <meta name="content-type" content="text/html; charset=UTF-8">
-    
-    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<head>
 
-  </head>
-  
-  <body>
-    This is my HTML page. <br>
-  </body>
+	
+</head>
+<body ng-app="aboutApp" ng-controller="aboutController">
+
+
+<div class="container qz_content">	
+	
+	<div class="row">	
+		
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="news_list">
+				<div class="news_in">
+					<h3 ng-bind="aboutC.title"></h3>
+					<p ng-bind="aboutC.texts"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+</body>
 </html>

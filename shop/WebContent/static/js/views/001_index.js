@@ -1,7 +1,7 @@
 angular.module('phonecatFilters', ['ngCookies', 'pascalprecht.translate']);
 
 var indexApp=angular.module('indexApp', ['ui.router','ui.bootstrap','phonecatFilters','tm.pagination','ngCookies','pascalprecht.translate',
-'homeApp','cardApp','orderApp','centerApp','loginApp','registerApp','passwordRecoveryApp','passwordRecovery2App']).config(
+'homeApp','cardApp','orderApp','centerApp','loginApp','registerApp','passwordRecoveryApp','passwordRecovery2App','aboutApp']).config(
 		function($stateProvider, $urlRouterProvider) {
 			$urlRouterProvider.otherwise('/home');
 			$stateProvider.state('home', {//首页
@@ -44,6 +44,11 @@ var indexApp=angular.module('indexApp', ['ui.router','ui.bootstrap','phonecatFil
 				templateUrl : '009_passwordRecovery2.html',
 				cache:'false',
 				controller: 'passwordRecovery2Controller'			
+			}).state('about', {//关于超市
+				url : '/about',
+				templateUrl : '010_about.html',
+				cache:'false',
+				controller: 'aboutController'			
 			});
 		})
 
