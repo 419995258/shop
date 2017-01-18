@@ -10,6 +10,8 @@ aboutAppmodule.controller('newsContentController', function($scope, $http, $root
 		
 	};
 	
+	$scope.newsC = {};
+	$scope.newsC = {'content':'在国务院新闻办29日举行的发布会上，水利'};
 	
 	init();
 });

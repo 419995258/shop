@@ -10,6 +10,8 @@ aboutAppmodule.controller('newsController', function($scope, $http, $rootScope, 
 		
 	};
 	
-
+	$scope.x = {};
+	$scope.x = {'title':'关于心羽基金','createTimeStr':'在国务院新闻办29日举行的发布会上，水利'};
+	
 	init();
 });

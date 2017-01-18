@@ -6,7 +6,27 @@
 </head>
 <body ng-app="newsApp" ng-controller="newsController">
 
-<a onclick="changeActive(this)" id="btn_newsContent" ui-sref="newsContent">012_news.html</a>
+<div class="container qz_content">	
+	
+	<div class="row">		
+
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="news_list">
+				<a onclick="changeActive(this)" id="btn_newsContent" ui-sref="newsContent">luan</a>
+				<a class="news_link" ng-repeat="" ng-click='newsContent($index)'>
+					<span class="news_label" ng-bind=""></span>
+					<span class="news_time" ng-bind=""></span>
+				</a>
+			</div>
+			
+			<div class="text-right" style="margin-right:0px;">			
+				<pagination boundary-links="true" items-per-page="pageSize" ng-change="pageChanged()" total-items="totalItems" num-pages="pages" max-size="maxSize" ng-model="currentPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+  				</pagination>
+			</div>
+			
+		</div>
+	</div>
+</div>
 
 </body>
 </html>

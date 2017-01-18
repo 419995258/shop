@@ -44,6 +44,16 @@
 		<!-- 校验必填项 -->
 		<script type="text/javascript" src="../static/js/lib/global.js"></script>
 		
+		<!--图片展示-->
+		<script type="text/javascript" src="../static/js/lib/jquery/jquery.fancybox.js"></script>
+		<link href="../static/css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="screen" />
+		
+		<!--ueditor(图文编辑器)相关-->
+		<link href="../static/ueditor/themes/default/_css/umeditor.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" charset="utf-8" src="../static/ueditor/umeditor.config.js"></script>
+		<script type="text/javascript" charset="utf-8" src="../static/ueditor/editor_api.js"></script>
+		<script type="text/javascript" src="../static/ueditor/lang/zh-cn/zh-cn.js"></script>
+		
 		<!--页面js-->
 		<script type="text/javascript" src="../static/js/system/001_systemIndex.js"></script>
 		<script type="text/javascript" src="../static/js/system/002_allGoods.js"></script>
@@ -51,6 +61,7 @@
 		<script type="text/javascript" src="../static/js/system/003_allOrder2.js"></script>
 		<script type="text/javascript" src="../static/js/system/004_allUser.js"></script>
 		<script type="text/javascript" src="../static/js/system/005_loginLog.js"></script>
+		<script type="text/javascript" src="../static/js/system/006_about.js"></script>
 	</head>
 	<body ng-app="systemIndexApp">
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -70,8 +81,8 @@
 						<li class="menu_btn" onclick="changeActive(this)"  id="allOrder2" ui-sref="allOrder2"><span class="glyphicon glyphicon-ok"style="margin-right: 20px;margin-left: 20px;"></span><span>已完成订单</span></li>
 						<li class="menu_btn" onclick="changeActive(this)"  id="allUser" ui-sref="allUser"><span class="glyphicon glyphicon-user"style="margin-right: 20px;"></span><span>全部用户</span></li>
 						<li class="menu_btn" onclick="changeActive(this)"  id="loginLog" ui-sref="loginLog"><span class="glyphicon glyphicon-list-alt"style="margin-right: 20px;"></span><span>登录日志</span></li>
-						<li class="menu_btn" onclick="changeActive(this)"  id="about" ui-sref="about"><span class="glyphicon glyphicon-list-alt"style="margin-right: 20px;"></span><span>关于超市</span></li>
-						<li class="menu_btn" onclick="changeActive(this)"  id="news" ui-sref="news"><span class="glyphicon glyphicon-list-alt"style="margin-right: 20px;"></span><span>新闻中心</span></li>
+						<li class="menu_btn" onclick="changeActive(this)"  id="about" ui-sref="about"><span class="glyphicon glyphicon-pencil"style="margin-right: 20px;"></span><span>关于超市</span></li>
+						<li class="menu_btn" onclick="changeActive(this)"  id="news" ui-sref="news"><span class="glyphicon glyphicon-th-list"style="margin-right: 20px;"></span><span>新闻中心</span></li>
 						<!-- <li class="menu_lj">累计访问人数：<span>556</span></li>
 						<li class="menu_lj">累计交易额度：<span>556</span></li> -->
 					</ul>
