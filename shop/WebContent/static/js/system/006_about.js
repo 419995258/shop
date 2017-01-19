@@ -11,7 +11,7 @@ aboutAppmodule.controller('aboutController', function($scope, $http, $rootScope,
 	function init() {		
 		if ($state.current.name == 'about') {
 			$('.menu_btn').removeClass('active');
-			$('#btn_about').addClass('active');
+			$('#about').addClass('active');
 		};
 		query();
 	};

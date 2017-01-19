@@ -68,28 +68,26 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#"><span>购物管理系统</span></a>
-				</div>
-				
+						<a class="navbar-brand" href="#"><span>购物管理系统</span></a>				
 			</div>
+		</div>
 		</nav>
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-3 col-md-2 sidebar">
+				<div class="col-xs-3 col-sm-3 col-md-2 col-lg-2 sidebar">
 					<ul class="nav nav-sidebar main_menu">
 						<li class="menu_btn" onclick="changeActive(this)"  id="allGoods" ui-sref="allGoods"><span class="glyphicon glyphicon-barcode"style="margin-right: 20px;"></span><span>全部商品</span></li>
 						<li class="menu_btn" onclick="changeActive(this)"  id="allOrder" ui-sref="allOrder"><span class="glyphicon glyphicon-time"style="margin-right: 20px;margin-left: 20px;"></span><span>待处理订单</span></li>
 						<li class="menu_btn" onclick="changeActive(this)"  id="allOrder2" ui-sref="allOrder2"><span class="glyphicon glyphicon-ok"style="margin-right: 20px;margin-left: 20px;"></span><span>已完成订单</span></li>
 						<li class="menu_btn" onclick="changeActive(this)"  id="allUser" ui-sref="allUser"><span class="glyphicon glyphicon-user"style="margin-right: 20px;"></span><span>全部用户</span></li>
-						<li class="menu_btn" onclick="changeActive(this)"  id="loginLog" ui-sref="loginLog"><span class="glyphicon glyphicon-list-alt"style="margin-right: 20px;"></span><span>登录日志</span></li>
-						<li class="menu_btn" onclick="changeActive(this)"  id="about" ui-sref="about"><span class="glyphicon glyphicon-pencil"style="margin-right: 20px;"></span><span>关于超市</span></li>
 						<li class="menu_btn" onclick="changeActive(this)"  id="news" ui-sref="news"><span class="glyphicon glyphicon-th-list"style="margin-right: 20px;"></span><span>新闻中心</span></li>
+						<li class="menu_btn" onclick="changeActive(this)"  id="about" ui-sref="about"><span class="glyphicon glyphicon-pencil"style="margin-right: 20px;"></span><span>关于超市</span></li>
+						<li class="menu_btn" onclick="changeActive(this)"  id="loginLog" ui-sref="loginLog"><span class="glyphicon glyphicon-list-alt"style="margin-right: 20px;"></span><span>登录日志</span></li>
 						<!-- <li class="menu_lj">累计访问人数：<span>556</span></li>
 						<li class="menu_lj">累计交易额度：<span>556</span></li> -->
 					</ul>
 				</div>
-				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ui-view>
-
+				<div class="col-xs-12 col-xs-offset-3 col-sm-12 col-sm-offset-3 col-md-10 col-md-offset-2 col-lg-10 " ui-view>
 				</div>
 			</div>
 		</div>
