@@ -43,12 +43,13 @@ public class OrderManageController {
 	}
 
 	/**
-	 * 取消订单
+	 * 完成订单
 	 * 
 	 */
 	@RequestMapping(value = "/sureOrder", method = RequestMethod.PUT)
 	public Message sureOrder(@RequestBody BuyVo buyVo) throws Exception {
-		return orderService.sureOrder(buyVo);
+		Message message = orderService.sureOrder(buyVo);
+		return message;
 	}
 
 	/**

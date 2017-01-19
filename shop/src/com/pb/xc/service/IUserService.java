@@ -5,6 +5,7 @@ import com.pb.xc.controller.vo.Message;
 import com.pb.xc.controller.vo.ResultVo;
 import com.pb.xc.entity.About;
 import com.pb.xc.entity.Add;
+import com.pb.xc.entity.News;
 import com.pb.xc.entity.User;
 
 public interface IUserService {
@@ -126,4 +127,44 @@ public interface IUserService {
 	 * 更新关于我们
 	 */
 	public Message update(About about) throws Exception;
+	
+	
+	 /**
+     * 
+     * 添加news
+     */
+    public Message addNews(News news )throws Exception;
+    
+    /**
+     * 查询news详细信息
+     * 
+     */
+    
+    public News showNewsData(News news)throws Exception;
+    
+    /**
+     * 更新news详细信息
+     * 
+     */
+    
+    public Message updateNews(News newsVo)throws Exception;
+    
+    /**
+     * 删除news信息
+     */
+    public Message deleteNews(News newsVo) throws Exception;
+    
+    
+    /**
+     * 查询news信息
+     * 
+     */
+    public ResultVo selectNews(ResultVo param) throws Exception;
+    
+    /**
+	 * 按id查询新闻
+	 * @param id
+	 * @throws Exception
+	 */
+	public News queryById(Integer id) throws Exception;
 }

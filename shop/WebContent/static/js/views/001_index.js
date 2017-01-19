@@ -50,7 +50,7 @@ var indexApp=angular.module('indexApp', ['ui.router','ui.bootstrap','phonecatFil
 				cache:'false',
 				controller: 'aboutController'			
 			}).state('newsContent', {//新闻内容
-				url : '/newsContent',
+				url : '/newsContent/:id',
 				templateUrl : '011_newsContent.html',
 				cache:'false',
 				controller: 'newsContentController'			

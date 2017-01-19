@@ -16,11 +16,13 @@ import com.pb.xc.controller.vo.AddVo;
 import com.pb.xc.controller.vo.GoodsVo;
 import com.pb.xc.controller.vo.LOGVo;
 import com.pb.xc.controller.vo.Message;
+import com.pb.xc.controller.vo.NewsVo;
 import com.pb.xc.controller.vo.ResultVo;
 import com.pb.xc.controller.vo.UserVo;
 import com.pb.xc.dao.AboutMapper;
 import com.pb.xc.dao.AddMapper;
 import com.pb.xc.dao.LOGMapper;
+import com.pb.xc.dao.NewsMapper;
 import com.pb.xc.dao.UserMapper;
 import com.pb.xc.entity.About;
 import com.pb.xc.entity.AboutExample;
@@ -30,6 +32,8 @@ import com.pb.xc.entity.Goods;
 import com.pb.xc.entity.GoodsExample;
 import com.pb.xc.entity.LOG;
 import com.pb.xc.entity.LOGExample;
+import com.pb.xc.entity.News;
+import com.pb.xc.entity.NewsExample;
 import com.pb.xc.entity.User;
 import com.pb.xc.entity.UserExample;
 import com.pb.xc.entity.UserExample.Criteria;
@@ -53,6 +57,9 @@ public class UserServiceImpl extends FengYeBasic implements IUserService {
 	
 	@Autowired
 	private AboutMapper aboutMapper;
+	
+	@Autowired
+	private NewsMapper newsMapper;
 
 	/*
 	 * (non-Javadoc)
@@ -430,17 +437,125 @@ public class UserServiceImpl extends FengYeBasic implements IUserService {
 				return message;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.pb.xc.service.IUserService#queryUserInfo(com.pb.xc.entity.User)
-	 */
-	/**
-	 * 查询用户信息
-	 */
-	/*public Message queryUserInfo(User user) throws Exception {
+	@Override
+	public Message addNews(News news) throws Exception {
+		// TODO Auto-generated method stub
 		Message message = new Message();
+		Date createTime = DateUtil.getCurrentDate(DateUtil.DATE_STYLE4);
+		news.setTime(createTime);
+		int record = newsMapper.insertSelective(news);
+		if (record > 0) {
+			message.setSuccess(true);
+			}
+		return message;
+	}
+
+	@Override
+	public News showNewsData(News news) throws Exception {
+		// TODO Auto-generated method stub
+		int id = news.getId();
+		NewsExample newsExample = new NewsExample();
+		newsExample.createCriteria().andIdEqualTo(id);
+		List<News> newsList = newsMapper
+				.selectByExampleWithBLOBs(newsExample);
+		if (!ObjectUtil.collectionIsEmpty(newsList)) {
+			news = newsList.get(0);
+		}
+		return news;
+	}
+
+	@Override
+	public Message updateNews(News news) throws Exception {
+		// TODO Auto-generated method stub
+		Message message = new Message();
+		int record = newsMapper.updateByPrimaryKeyWithBLOBs(news);
+		if (record > 0) {
+			message.setSuccess(true);
+			}
+
+		return message;
+	}
+
+	@Override
+	public Message deleteNews(News newsVo) throws Exception {
+		// TODO Auto-generated method stub
+		Message message = new Message();
+		int id = newsVo.getId();
+
+		int record = newsMapper.deleteByPrimaryKey(id);
+		if (record > 0) {
+			message.setSuccess(true);
+		}
+		return message;
+	}
+
+	@Override
+	public ResultVo selectNews(ResultVo param) throws Exception {
+		// TODO Auto-generated method stub
+		ResultVo resultVo = new ResultVo();
+		List<NewsVo> newsVos = new ArrayList<NewsVo>();
+
+		String pagesize = param.getPageSize();
+		String currentpage = param.getCurrentpage();
+
+		int pageNum = 1;
+		int psize = 10;
+
+		if (StringContentUtil.isNoEmpty(pagesize)) {
+			psize = ObjectUtil.convToInteger(pagesize);
+		}
+
+		if (StringContentUtil.isNoEmpty(currentpage)) {
+			pageNum = ObjectUtil.convToInteger(currentpage);
+		}
+		this.setPageInfo(psize, pageNum);
 		
-		return null;
-	}*/
+		NewsExample newsExample = new NewsExample();
+		newsExample.setOrderByClause("id desc");
+		com.pb.xc.entity.NewsExample.Criteria cr = newsExample.createCriteria();
+		
+		//查询不同种类
+		Integer queryType = param.getQueryType();
+		if(queryType == null){
+			queryType = 0;
+		}
+		
+		if (queryType == 1) {
+		} else if (queryType == 2) {
+			cr.andTitleLike(param.getQueryText());
+		}
+		
+		List<News> newsList = newsMapper.selectByExample(newsExample);
+
+		if (!ObjectUtil.collectionIsEmpty(newsList)) {
+
+			for (Iterator iterator = newsList.iterator(); iterator.hasNext();) {
+				News news= (News) iterator.next();
+				NewsVo temp = new NewsVo();
+				BeanUtils.copyProperties(temp, news);
+				Date Time = news.getTime();
+				temp.setStrTime(DateUtil.getDateStr(DateUtil.DATE_STYLE4,
+						Time));
+				newsVos.add(temp);
+			}
+
+		}
+
+		this.setReturnPageInfo(psize, pageNum, newsList, resultVo);
+		resultVo.setRows(newsVos);
+		return resultVo;
+	}
+
+	@Override
+	public News queryById(Integer id) throws Exception {
+		// TODO Auto-generated method stub
+		News news = new News();
+		if (id != null) {
+			news = newsMapper.selectByPrimaryKey(id);
+		}
+		return news;
+	}
+
+	
 
 }

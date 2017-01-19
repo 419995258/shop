@@ -28,7 +28,7 @@ newsAppmodule.controller('newsController', function($scope, $http, $rootScope, $
 	
 	var sub = true;
 	
-	//验证登录
+	/*//验证登录
 	$http({
 		method : "POST",
 		url : "../adminC/ckLogined",
@@ -39,7 +39,7 @@ newsAppmodule.controller('newsController', function($scope, $http, $rootScope, $
 			}
 	}).error(function(data, status) {
 		$scope.tsText = "遭遇错误";
-	});
+	});*/
 	
 	$scope.init = function() {
 		if ($state.current.name == 'news') {
@@ -65,7 +65,7 @@ newsAppmodule.controller('newsController', function($scope, $http, $rootScope, $
 		// 查询所有信息
 		$http({
 			method : "POST",
-			url : "../newsmanageC/showNews",
+			url : "../otherManageC/showNews",
 			data : resultVo
 		}).success(function(data, status) {
 			$scope.newsItemsMini = data.rows;
@@ -140,7 +140,7 @@ newsAppmodule.controller('newsController', function($scope, $http, $rootScope, $
 		sub = false;
 		$http({
 			method : "PUT",
-			url : "../newsmanageC/addNews",
+			url : "../otherManageC/addNews",
 			data : $scope.newsItems,
 		}).success(function(data, status) {
 			if (data.success) {
@@ -163,7 +163,7 @@ newsAppmodule.controller('newsController', function($scope, $http, $rootScope, $
 
 		$http({
 			method : "PUT",
-			url : "../newsmanageC/deleteNews",
+			url : "../otherManageC/deleteNews",
 			data : $scope.newsItemsMini [$scope.jkdIndex]
 		}).success(function(data, status) {
 			$scope.newsItemsMini.splice(delIdTemp, 1);
@@ -179,7 +179,7 @@ newsAppmodule.controller('newsController', function($scope, $http, $rootScope, $
 		$scope.jkdIndex = XIdTemp;
 		$http({
 			method : "POST",
-			url : "../newsmanageC/showNewsData",
+			url : "../otherManageC/showNewsData",
 			data : $scope.newsItemsMini[$scope.jkdIndex]
 		}).success(function(data, status) {
 			$scope.newsItems = data;
@@ -217,7 +217,7 @@ newsAppmodule.controller('newsController', function($scope, $http, $rootScope, $
 		sub = false;
 		$http({
 			method : "PUT",
-			url : "../newsmanageC/updateNews",
+			url : "../otherManageC/updateNews",
 			data : $scope.newsItems,
 		}).success(function(data, status) {
 			if (data.success) {
@@ -234,27 +234,7 @@ newsAppmodule.controller('newsController', function($scope, $http, $rootScope, $
 		}
 	};
 	
-	//查询封面
 	
-	$scope.fengmianUrl = '';
-	$scope.queryFengmian = function(){
-		var type = 1;
-		$http({
-			method : "POST",
-			url : "../newsmanageC/queryFengmian",
-			data : type,
-		}).success(function(data, status) {
-			if (data.success) {
-				$scope.fengmianUrl = data.message;
-			}
-		}).error(function(data, status) {
-		});
-	};
-	
-	$scope.sureFengmian = function(){
-		$("#file-5").fileinput('clear');
-		$('#fengmian').modal('hide');
-	};
 	
 	$rootScope.logout = function() {
 		$http({

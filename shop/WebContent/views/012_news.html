@@ -12,10 +12,10 @@
 
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="news_list">
-				<a onclick="changeActive(this)" id="btn_newsContent" ui-sref="newsContent">luan</a>
-				<a class="news_link" ng-repeat="" ng-click='newsContent($index)'>
-					<span class="news_label" ng-bind=""></span>
-					<span class="news_time" ng-bind=""></span>
+				<a onclick="changeActive(this)" id="btn_newsContent" ui-sref="newsContent"></a>
+				<a class="news_link" ng-repeat="x in newsShow" ng-click='newsContent($index)'>
+					<span class="news_label" ng-bind="x.title"></span>
+					<span class="news_time" ng-bind="x.strTime"></span>
 				</a>
 			</div>
 			
