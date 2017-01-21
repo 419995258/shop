@@ -35,10 +35,16 @@ img{
 .navbar-header span{
 	font-size: 20px;
 }
-.main_menu{
+.header1{
 	text-align: center;
-	height: 80px;
-	line-height: 80px;
+	height: 50px;
+	line-height: 50px;
+	font-size: 18px;
+}
+.main_menu1{
+	text-align: center;
+	height: 50px;
+	line-height: 50px;
 	font-size: 18px;
 }
 .menu_btn{

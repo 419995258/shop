@@ -40,7 +40,7 @@ img{
 	display: none;
 }
 @media screen and (max-width: 1000px) {
-	.header,  .main_menu{
+	.header,  .main_menu, .header1{
 		display: none;
 	}
 	
