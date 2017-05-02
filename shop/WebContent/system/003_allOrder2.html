@@ -40,6 +40,7 @@
 						<th>用户电话</th>
 						<th>用户地址</th>
 						<th>购买总额</th>
+						<th>备注</th>
 						<th><span class="cz">操作</span></th>
 					</tr>
 				</thead>
@@ -51,7 +52,7 @@
 						<td><span ng-bind="x.tel"></span></td>
 						<td><span ng-bind="x.address"></span></td>
 						<td><span ng-bind="x.money"></span></td>
-
+						<td><span ng-bind="x.note"></span></td>
 						<td><span>
 								<button type="button" class="btn btn-warning btn-sm"
 									ng-click="openXD($index)">查看详情</button>

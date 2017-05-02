@@ -17,6 +17,7 @@
 							<th>订单时间</th>
 							<th>订单金额</th>
 							<th>订单状态</th>
+							<th>备注</th>
 							<th>操作</th>
 							
 						</tr>
@@ -26,6 +27,7 @@
 							<td><span ng-bind="x.strTime"></span></td>
 							<td><span ng-bind="x.money"></span>元</td>
 							<td><span ng-bind="x.strState"></span></td>
+							<td><span ng-bind="x.note"></span></td>
 							<td>
 								<span>
 									<button type="button" class="btn btn-warning btn-sm"
@@ -70,7 +72,6 @@
 						</tr>
 					</tbody>
 				</table>
-				<label>订单备注：<input type="text" style="height:35px;width:500px"></label>
 			</div>
 			<!-- /.modal-content -->
 		</div>

@@ -115,6 +115,7 @@ cardAppmodule.controller('cardController', function($scope, $http, $rootScope,
 			if (data.success) {
 				//queryCard();
 				alert("下单成功");
+				$scope.card={};
 				queryCard();
 				console.log("下单成功");
 			} else {
