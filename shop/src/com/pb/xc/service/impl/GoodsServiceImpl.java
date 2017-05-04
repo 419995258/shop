@@ -100,9 +100,8 @@ public class GoodsServiceImpl extends FengYeBasic implements IGoodsService {
 		Message message = new Message();
 		// 设置商品属性
 		Date createTime = DateUtil.getCurrentDate(DateUtil.DATE_STYLE4);
-		goods.setTop(0);
 		goods.setNum(0);
-		goods.setState(1);
+		goods.setState(2);
 		goods.setCreatetime(createTime);
 		int record = goodsMapper.insertSelective(goods);
 		if (record > 0) {
@@ -182,11 +181,16 @@ public class GoodsServiceImpl extends FengYeBasic implements IGoodsService {
 
 		// 查询商品名
 		GoodsExample goodsExample = new GoodsExample();
-		goodsExample.setOrderByClause("num desc");//按加入订单数量倒序排序
+		//goodsExample.setOrderByClause("num desc");//按加入订单数量倒序排序
+		goodsExample.setOrderByClause("id desc");
 		Criteria cr = goodsExample.createCriteria();
 		//cr.andStateEqualTo(1);
 		cr.andStateNotEqualTo(0);
+		if(param.getQueryType()!= 66){
+			cr.andTopEqualTo(param.getQueryType());
+		}
 		cr.andNameLike(param.getQueryText());//查找输入内容
+		
 
 		List<Goods> goodsList = goodsMapper.selectByExample(goodsExample);
 		//修改时间str
@@ -244,6 +248,9 @@ public class GoodsServiceImpl extends FengYeBasic implements IGoodsService {
 		Criteria cr = goodsExample.createCriteria();
 		//cr.andStateEqualTo(1);
 		cr.andStateEqualTo(2);
+		if(param.getQueryType()!= 66){
+			cr.andTopEqualTo(param.getQueryType());
+		}
 		cr.andNameLike(param.getQueryText());//查找输入内容
 
 		List<Goods> goodsList = goodsMapper.selectByExample(goodsExample);

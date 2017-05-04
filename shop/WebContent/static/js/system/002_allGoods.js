@@ -18,6 +18,8 @@ allGoodsAppmodule.controller('allGoodsController', function($scope, $http,
 	var file = false;
 	$scope.jkdIndex = ''; // 点击索引
 	$scope.xqItems = {}; // 详情弹出框填入的数组
+	$scope.selectItems = [];//商品的类别
+	$scope.addItems = [];//商品的类别
 
 	$scope.goods = {};
 	$scope.goodsMini = {};
@@ -26,12 +28,19 @@ allGoodsAppmodule.controller('allGoodsController', function($scope, $http,
 
 	$scope.queryText = '';
 
+	var queryTemp = [{'type':66,'name':'全部商品'},{'type':0,'name':'未分类'},{'type':1,'name':'应季水果'},{'type':2,'name':'干果'}];
+	var addTemp = [{'type':0,'name':'未分类'},{'type':1,'name':'应季水果'},{'type':2,'name':'干果'}];
+	$scope.selectItems = queryTemp;
+	$scope.addItems = addTemp;
+	$scope.qureyType = queryTemp[0];
+	$scope.addType = addTemp[0];
+	
 	$scope.init = function() {
 		if ($state.current.name == 'allGoods') {
 			$('.menu_btn').removeClass('active');
 			$('#allGoods').addClass('active');
 		}
-		;
+		
 		queryGoods();
 	};
 	$scope.init();
@@ -91,6 +100,7 @@ allGoodsAppmodule.controller('allGoodsController', function($scope, $http,
 
 			sub = false;
 			$scope.goods.url = fileUrl;
+			$scope.goods.top = $scope.addType.type;
 			$http({
 				method : "PUT",
 				url : "../goodsmanageC/addGoods",
@@ -121,6 +131,7 @@ allGoodsAppmodule.controller('allGoodsController', function($scope, $http,
 		resultVo.currentpage = $scope.currentPage;
 		resultVo.type = $scope.type;
 		resultVo.queryText = $scope.queryText;
+		resultVo.queryType = $scope.qureyType.type;
 
 		// 查询所有信息
 		$http({
@@ -173,6 +184,7 @@ allGoodsAppmodule.controller('allGoodsController', function($scope, $http,
 			data : $scope.goodsMini[$scope.jkdIndex]
 		}).success(function(data, status) {
 			$scope.goods = data;
+			$scope.addType = addTemp[data.top];
 			XIdTemp = '';
 			// $scope.pictures = $scope.goods.url;
 			$('#fixModal').modal('show');
@@ -203,6 +215,7 @@ allGoodsAppmodule.controller('allGoodsController', function($scope, $http,
 
 			sub = false;
 			$scope.goods.url = fileUrl;
+			$scope.goods.top = $scope.addType.type;
 			$http({
 				method : "PUT",
 				url : "../goodsmanageC/updateGoods",

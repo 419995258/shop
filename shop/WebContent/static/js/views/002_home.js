@@ -18,9 +18,13 @@ homeAppmodule.controller('homeController', function($scope, $http, $rootScope, $
 	$scope.jkdIndex = ''; // 点击索引
 	$scope.xqItems = {}; // 详情弹出框填入的数组
 	$scope.queryText = '';
-
+	$scope.selectItems = [];//商品的类别
 	$scope.goodsMini = {};
 	
+	
+	var queryTemp = [{'type':66,'name':'全部商品'},{'type':0,'name':'未分类'},{'type':1,'name':'应季水果'},{'type':2,'name':'干果'}];
+	$scope.selectItems = queryTemp;
+	$scope.qureyType = queryTemp[0];
 	$scope.init = function() {
 		if ($state.current.name == 'home') {
 			$('.qz_content > a').removeClass('active');
@@ -37,7 +41,7 @@ homeAppmodule.controller('homeController', function($scope, $http, $rootScope, $
 		resultVo.currentpage = $scope.currentPage;
 		resultVo.type = $scope.type;
 		resultVo.queryText = $scope.queryText;
-
+		resultVo.queryType = $scope.qureyType.type;
 		// 查询所有信息
 		$http({
 			method : "POST",
