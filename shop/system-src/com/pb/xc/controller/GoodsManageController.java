@@ -80,6 +80,7 @@ public class GoodsManageController {
 	@RequestMapping(value="/updateGoods",method = RequestMethod.PUT)
 	public Message updateGoods(@RequestBody Goods goods) throws Exception{
 		if(null == goods.getUrl() || goods.getUrl().equals("")){
+			//图片的修改
 			Goods goods2 = goodsService.queryGoodsData(goods);
 			goods.setUrl(goods2.getUrl());
 		}

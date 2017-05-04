@@ -22,7 +22,7 @@ homeAppmodule.controller('homeController', function($scope, $http, $rootScope, $
 	$scope.goodsMini = {};
 	
 	
-	var queryTemp = [{'type':66,'name':'全部商品'},{'type':0,'name':'未分类'},{'type':1,'name':'应季水果'},{'type':2,'name':'干果'}];
+	var queryTemp = [{'type':66,'name':'全部商品'},{'type':0,'name':'未分类'},{'type':1,'name':'应季水果'},{'type':2,'name':'干果'},{'type':3,'name':'散装'},{'type':4,'name':'饮品'},{'type':5,'name':'其他'}];
 	$scope.selectItems = queryTemp;
 	$scope.qureyType = queryTemp[0];
 	$scope.init = function() {

@@ -28,8 +28,8 @@ allGoodsAppmodule.controller('allGoodsController', function($scope, $http,
 
 	$scope.queryText = '';
 
-	var queryTemp = [{'type':66,'name':'全部商品'},{'type':0,'name':'未分类'},{'type':1,'name':'应季水果'},{'type':2,'name':'干果'}];
-	var addTemp = [{'type':0,'name':'未分类'},{'type':1,'name':'应季水果'},{'type':2,'name':'干果'}];
+	var queryTemp = [{'type':66,'name':'全部商品'},{'type':0,'name':'未分类'},{'type':1,'name':'应季水果'},{'type':2,'name':'干果'},{'type':3,'name':'散装'},{'type':4,'name':'饮品'},{'type':5,'name':'其他'}];
+	var addTemp = [{'type':0,'name':'未分类'},{'type':1,'name':'应季水果'},{'type':2,'name':'干果'},{'type':3,'name':'散装'},{'type':4,'name':'饮品'},{'type':5,'name':'其他'}];
 	$scope.selectItems = queryTemp;
 	$scope.addItems = addTemp;
 	$scope.qureyType = queryTemp[0];
@@ -212,6 +212,7 @@ allGoodsAppmodule.controller('allGoodsController', function($scope, $http,
 			sub = false;
 			$scope.goods.url = fileUrl;
 			$scope.goods.top = $scope.addType.type;
+			console.log($scope.goods.top);	
 			$http({
 				method : "PUT",
 				url : "../goodsmanageC/updateGoods",
@@ -221,7 +222,7 @@ allGoodsAppmodule.controller('allGoodsController', function($scope, $http,
 					$("#file-5").fileinput('clear');
 					$("#file-6").fileinput('clear');
 					$scope.goods = {};
-					fileUrl = [];
+					fileUrl = "";
 					$('#fixModal').modal('hide');
 					queryGoods();
 					sub = true;
@@ -232,6 +233,8 @@ allGoodsAppmodule.controller('allGoodsController', function($scope, $http,
 				file = false;
 			}).error(function(data, status) {
 				alert('保存失败');
+				$('#fixModal').modal('hide');
+				queryGoods();
 			});
 		}
 	};
