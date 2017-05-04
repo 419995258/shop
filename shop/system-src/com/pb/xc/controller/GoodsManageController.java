@@ -79,6 +79,10 @@ public class GoodsManageController {
 	 */
 	@RequestMapping(value="/updateGoods",method = RequestMethod.PUT)
 	public Message updateGoods(@RequestBody Goods goods) throws Exception{
+		if(null == goods.getUrl() || goods.getUrl().equals("")){
+			Goods goods2 = goodsService.queryGoodsData(goods);
+			goods.setUrl(goods2.getUrl());
+		}
 		return goodsService.updateGoods(goods);
 	}
 	

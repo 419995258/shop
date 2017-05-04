@@ -207,11 +207,7 @@ allGoodsAppmodule.controller('allGoodsController', function($scope, $http,
 			}
 			;
 
-			if (file != true) {
-				alert("请上传文件");
-				return;
-			}
-			;
+			
 
 			sub = false;
 			$scope.goods.url = fileUrl;
