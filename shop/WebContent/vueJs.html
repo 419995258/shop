@@ -26,7 +26,26 @@
 		test:<span>{{isTest}}</span><br>
 		age2:<button v-bind:href="student.name">baidu</button>
 	</div>
-
+	<br>
+	<div id="test2">
+		动态绑定：<input v-model="mess1">
+		<br><span>{{mess1}}</span>
+	</div>
+	<br>
+	<div id="test3">
+		循环输出结果:
+		<br>
+		<button v-on:click="getStudent()">点击获取学生信息</button>
+		<br>
+		<span>
+		{{students}}
+		</span>
+		<li v-for="student in students">
+			 姓名：{{student.name}} 
+			  年龄：{{student.age}} 
+			   性别：{{student.sex}} 
+		</li>
+	</div>
 
 </body>
 <script>
@@ -64,6 +83,45 @@
 			}
 		}
 	});
+	
+	
+	
+	var test2 = new Vue({
+		el:'#test2',
+		data:{
+			mess1:''
+		}
+	})
+	
+	
+	var test3 = new Vue({
+		el:'#test3',
+		data:{
+			students:{}
+		},
+		methods:{
+			getStudent : function(){
+				$.ajax({
+					type : "post",
+					url : "testC/test2",
+					//data : JSON.stringify(student),
+					datatype : 'json',
+					contentType:"application/json",
+					success : function(data) {
+						console.log(data);
+						test3.students = data.students;
+						console.log(test3.students);
+						test2.mess1 = test3.students[0].name;
+						//console.log(vm.parent.success);
+						//console.log(vm.isTest);
+					},
+					error : function() {
+						alert("请求失败");
+					}
+				});  
+			}
+		}
+	})
 </script>
 
 
