@@ -20,16 +20,20 @@ img {
 					<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8"></div>
 					
 					<div class="input-group " style="margin-bottom:20px">
+					<form class="navbar-form navbar-right ng-pristine ng-valid">
 					<div class="form-group">
 						<select class="form-control" ng-model="qureyType"
 								ng-options="m.name for m in selectItems">
 						</select>
 					</div>
-						<input type="text" class="form-control" placeholder="请输入搜索的商品名（不填写时显示全部商品）"
+					<div class="input-group search_group" style="width:245px">
+					<input type="text" class="form-control" placeholder="商品名（不填搜索全部商品）"
 							ng-model='queryText'> <span class="input-group-btn">
 							<button class="btn btn-default" type="button"
 								ng-click='pageChanged()'>搜索</button>
 						</span>
+					</div>
+					</form>
 					</div>
 				</div>
 				<!--图书信息-->
